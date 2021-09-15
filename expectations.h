@@ -15,9 +15,9 @@
 #ifndef EXPECTATIONS_H
 #define EXPECTATIONS_H
 
-#include <unistd.h>
 #include <err.h>
 #include <execinfo.h>
+#include <unistd.h>
 
 #include <iostream>
 
@@ -56,14 +56,14 @@ void PrintBacktrace();
 #else
 #define NOTREACHED()                                                    \
   std::cerr << "NOTREACHED at " << __FILE__ << ":" << __LINE__ << "\n"; \
-  PrintBacktrace();                                                     \
+  ::integers::PrintBacktrace();                                         \
   trap();
 #endif
 
 #define EXPECT(condition)                             \
   if (!(condition)) {                                 \
     std::cerr << __FILE__ << ":" << __LINE__ << "\n"; \
-    PrintBacktrace();                                 \
+    ::integers::PrintBacktrace();                     \
     assert(false);                                    \
   }
 
@@ -87,7 +87,7 @@ void PrintBacktrace();
       } else {                                                            \
         std::cerr << "FAILURE: Child exited normally. Boo!! " << __FILE__ \
                   << ":" << __LINE__ << "\n";                             \
-        PrintBacktrace();                                                 \
+        ::integers::PrintBacktrace();                                     \
         failure = true;                                                   \
       }                                                                   \
       if (r != pid) {                                                     \
