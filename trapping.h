@@ -664,8 +664,7 @@ class trapping {
     }
 
     // Check that we aren’t about to shift left by more than we have room left
-    // for — i.e. check for overflow. NOTE: This check and the check above (and
-    // which is also in `operator>>`) might not be maximally efficient.
+    // for — i.e. check for overflow.
     using U = typename std::make_unsigned<T>::type;
     U unsigned_x = static_cast<U>(x);
     const int leading_zeros = __builtin_clz(unsigned_x);
