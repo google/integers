@@ -659,28 +659,31 @@ class trapping {
   /// Returns `*this`. `trap`s if `x` is more than there are bits in the value
   /// or if bits ‘fall off’ the left side (i.e. the shift overflows).
   Self& operator<<=(const T& x) {
-    if (x < 1 || x > (CHAR_BIT * sizeof(T) - 1)) {
+    if (x < 1 || static_cast<size_t>(x) > (CHAR_BIT * sizeof(T) - 1U)) {
       trap();
     }
-
-    const T y = x << (CHAR_BIT * sizeof(T) - x);
 
     // Check that we aren’t about to shift left by more than we have room left
     // for — i.e. check for overflow. NOTE: This check and the check above (and
     // which is also in `operator>>`) might not be maximally efficient.
-    if (value_ > y) {
+    using U = typename std::make_unsigned<T>::type;
+    U unsigned_x = static_cast<U>(x);
+    const int leading_zeros = __builtin_clz(unsigned_x);
+    if (x >= leading_zeros) {
       trap();
     }
+
+    const T y = value_ << x;
 
     // E.g. (1 << 31UL) results in "warning: signed shift result (0x80000000)
     // sets the sign bit of the shift expression's type ('int') and becomes
     // negative [-Wshift-sign-overflow]". So, check for this condition: change
     // in sign if `T` `is_signed`.
-    if (std::is_signed<T>::value && ((x < 0 && y < 0) || (x >= 0 || y >= 0))) {
+    if (std::is_signed<T>::value && ((x < 0 && y >= 0) || (x >= 0 && y < 0))) {
       trap();
     }
 
-    value_ = value_ << x;
+    value_ = y;
     return *this;
   }
 

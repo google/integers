@@ -357,6 +357,18 @@ void TestTrappingOperatorMod() {
   // TODO
 }
 
+void TestTrappingLeftShift() {
+  {
+    trapping<i32> x = 1;
+    x <<= 1;
+    EXPECT(2 == x);
+  }
+  {
+    trapping<i32> x = 1;
+    EXPECT_DEATH(x <<= 31);
+  }
+}
+
 void TestMultiOperatorOverflow() {
   // TODO: Parameterize this for u8, u16, u32. If we ever support u128, can add
   // u64 to that.
@@ -389,6 +401,8 @@ int main() {
   TestTrappingOperatorMul();
   TestTrappingOperatorDiv();
   TestTrappingOperatorMod();
+
+  TestTrappingLeftShift();
 
   TestMultiOperatorOverflow();
 
