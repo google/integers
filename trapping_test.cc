@@ -371,7 +371,7 @@ void TestMultiOperatorOverflow() {
   }
 }
 
-}  // namesapce
+}  // namespace
 
 int main() {
   TestBasicAssumptions();

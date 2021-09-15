@@ -28,6 +28,6 @@ int main() {
   }
   {
     ranged<int, 0, 256> goat;
-    //EXPECT_DEATH(goat{512});
+    // EXPECT_DEATH(goat{512});
   }
 }
