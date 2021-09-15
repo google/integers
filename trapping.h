@@ -166,8 +166,6 @@ bool cast_truncate(T value, R* result) {
     } else {
       NOTREACHED();
     }
-  } else {
-    NOTREACHED();
   }
 
 #undef STATIC_CAST_AND_RETURN
