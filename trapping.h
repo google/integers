@@ -24,6 +24,18 @@
 
 #include "expectations.h"
 
+namespace {
+
+template <typename T, typename U>
+bool divide_min_by_negative_1(const T& dividend, const U& divisor) {
+  // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
+  // https://isocpp.org/files/papers/N4860.pdf.)
+  return std::is_signed<U>::value &&
+         dividend == std::numeric_limits<T>::min() && divisor == -1;
+}
+
+}  // namespace
+
 /// # `integers`
 ///
 /// This is a library of template functions and template classes that implement
@@ -236,13 +248,7 @@ inline bool div_overflow(const T& dividend, const U& divisor, R* result) {
   if (divisor == 0) {
     return true;
   }
-  // TODO: This code is copied-and-pasted in `mod_overflow`. Factor it out into
-  // its own thing.
-  //
-  // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
-  // https://isocpp.org/files/papers/N4860.pdf.)
-  if (std::is_signed<U>::value && dividend == std::numeric_limits<T>::min() &&
-      divisor == -1) {
+  if (divide_min_by_negative_1<T, U>(dividend, divisor)) {
     // Instead of generating a floating-point exception, as
     // `std::numeric_limits<T>::min() / -1` can/does.
     return true;
@@ -268,10 +274,9 @@ inline bool mod_overflow(const T& dividend, const U& divisor, R* result) {
   if (divisor == 0) {
     return true;
   }
-  // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
-  // https://isocpp.org/files/papers/N4860.pdf.)
-  if (std::is_signed<U>::value && dividend == std::numeric_limits<T>::min() &&
-      divisor == -1) {
+  if (divide_min_by_negative_1<T, U>(dividend, divisor)) {
+    // Instead of generating a floating-point exception, as
+    // `std::numeric_limits<T>::min() / -1` can/does.
     return true;
   }
   return cast_truncate(dividend % divisor, result);
