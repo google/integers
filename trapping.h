@@ -171,9 +171,6 @@ bool cast_truncate(T value, R* result) {
   }
 
 #undef STATIC_CAST_AND_RETURN
-
-  NOTREACHED();
-  return true;
 }
 
 // TODO: For `*_overflow`, `Result<R> { R, bool }` instead of returning `bool`
