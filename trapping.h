@@ -180,7 +180,7 @@ bool cast_truncate(T value, R* result) {
 /// Adds `x` to `y` and stores the result in `result` (which can be a pointer to
 /// `x`, `y`, or another object). Returns true if the operation overflowed.
 template <typename T, typename U, typename R>
-inline bool add_overflow(const T& x, const U& y, R* result) {
+bool add_overflow(const T& x, const U& y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -197,7 +197,7 @@ inline bool add_overflow(const T& x, const U& y, R* result) {
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
 template <typename T, typename U, typename R>
-inline bool sub_overflow(const T& x, const U& y, R* result) {
+bool sub_overflow(const T& x, const U& y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -214,7 +214,7 @@ inline bool sub_overflow(const T& x, const U& y, R* result) {
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
 template <typename T, typename U, typename R>
-inline bool mul_overflow(const T& x, const U& y, R* result) {
+bool mul_overflow(const T& x, const U& y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -235,7 +235,7 @@ inline bool mul_overflow(const T& x, const U& y, R* result) {
 /// https://stackoverflow.com/questions/30394086/integer-division-overflows.
 /// Thanks, chux!
 template <typename T, typename U, typename R>
-inline bool div_overflow(const T& dividend, const U& divisor, R* result) {
+bool div_overflow(const T& dividend, const U& divisor, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -261,7 +261,7 @@ inline bool div_overflow(const T& dividend, const U& divisor, R* result) {
 /// https://stackoverflow.com/questions/30394086/integer-division-overflows.
 /// Thanks, chux!
 template <typename T, typename U, typename R>
-inline bool mod_overflow(const T& dividend, const U& divisor, R* result) {
+bool mod_overflow(const T& dividend, const U& divisor, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
