@@ -663,17 +663,20 @@ class trapping {
       trap();
     }
 
+    const T y = x << (CHAR_BIT * sizeof(T) - x);
+
     // Check that we aren’t about to shift left by more than we have room left
     // for — i.e. check for overflow. NOTE: This check and the check above (and
     // which is also in `operator>>`) might not be maximally efficient.
-    //
-    // Steve Checkoway points out that we have a BUG TODO: E.g. (1 << 31UL)
-    // results in "warning: signed shift result (0x80000000) sets the sign bit
-    // of the shift expression's type ('int') and becomes negative
-    // [-Wshift-sign-overflow]". So, check for this condition as well: change in
-    // sign if `T` `is_signed`.
-    const T y = x << (CHAR_BIT * sizeof(T) - x);
     if (value_ > y) {
+      trap();
+    }
+
+    // E.g. (1 << 31UL) results in "warning: signed shift result (0x80000000)
+    // sets the sign bit of the shift expression's type ('int') and becomes
+    // negative [-Wshift-sign-overflow]". So, check for this condition: change
+    // in sign if `T` `is_signed`.
+    if (std::is_signed<T>::value && ((x < 0 && y < 0) || (x >= 0 || y >= 0))) {
       trap();
     }
 
