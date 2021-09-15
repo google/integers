@@ -467,7 +467,9 @@ class trapping {
   //   return *this;
   // }
 
-  // TODO: This and the other versions.
+  // TODO: This might not be the right way to go about it and/or possible, but
+  // we need some way to ensure that assigning a `U` to `this` incurs a
+  // `trapping_cast` check. By whatever means is appropriate.
   // Self& operator=(U other) noexcept { }
 
   /// ### `operator+=`
