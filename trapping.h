@@ -171,9 +171,13 @@ bool cast_truncate(T value, R* result) {
 #undef STATIC_CAST_AND_RETURN
 }
 
-// TODO: For `*_overflow`, `Result<R> { R, bool }` instead of returning `bool`
-// and writing to an `R*` out-parameter might be more readable and/or may result
-// in better object code.
+// TODO NOTE: For `*_overflow`, `Result<R> { R, bool }` instead of returning
+// `bool` and writing to an `R*` out-parameter might be more readable and/or may
+// result in better object code. Preliminary testing shows that at -O0, the
+// `Result` version produces much worse code; at -O1, `Result` is marginally
+// better; and at -O2 and higher, both get inlined into oblivion. So, we should
+// decide on the basis of readability, since for builders who care about
+// optimization it seems essentially not to matter.
 
 /// ### `add_overflow`
 ///
