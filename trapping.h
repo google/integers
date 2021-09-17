@@ -26,6 +26,9 @@
 
 namespace {
 
+// Returns true if `divisor` is signed, is -1, and if `dividend` is the minimum
+// value for its type. Such division is UB, so must be avoided. This function is
+// used in `div_overflow` and `mod_overflow`.
 template <typename T, typename U>
 bool divide_min_by_negative_1(const T& dividend, const U& divisor) {
   // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
