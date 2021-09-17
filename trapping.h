@@ -181,6 +181,17 @@ bool cast_truncate(T value, R* result) {
 // better; and at -O2 and higher, both get inlined into oblivion. So, we should
 // decide on the basis of readability, since for builders who care about
 // optimization it seems essentially not to matter.
+//
+// Note that `std::optional` would seem to be the right type to use here, but
+// since it introduces new UB — the opposite of what we are trying to achieve
+// with this library — it is not fit for our purposes. We could use Abseil's
+// `optional` and enable Abseil's hardening mode (which defines the UB to
+// crash), but we want for this library to be a simple, stand-alone dependency
+// that introduces no further dependencies. We could also write our own
+// `optional`, but that could be a significant undertaking. For now, we just
+// need to get the basic integer functionality implemented and tested, and this
+// out-parameter implementation works just fine and produces good enough object
+// code.
 
 /// ### `add_overflow`
 ///
