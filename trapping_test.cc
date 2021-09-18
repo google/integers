@@ -490,7 +490,23 @@ void TestConstructorDefault() {
 }
 
 void TestConstructorT() {
-  // TODO
+  {
+    trapping<int> x = 42;
+    EXPECT(x == 42);
+  }
+  {
+    trapping<int> x{42};
+    EXPECT(x == 42);
+  }
+  {
+    EXPECT(trapping<int>(42) == 42);
+  }
+  {
+    EXPECT(trapping<int>{42} == 42);
+  }
+
+  // TODO: Implement `trapping(U value)` that traps if `value` is not
+  // representable in `T`.
 }
 
 void TestCast() {
