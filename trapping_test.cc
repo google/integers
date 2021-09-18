@@ -113,6 +113,30 @@ void TestTrappingAdd() {
   EXPECT(expected == (trapping_add<u32, u16, i64>(u32_max, 1)));
 }
 
+void  TestCastTruncate() {
+  // TODO
+}
+
+void  TestAddOverflow() {
+  // TODO
+}
+
+void  TestSubOverflow() {
+  // TODO
+}
+
+void  TestMulOverflow() {
+  // TODO
+}
+
+void  TestDivOverflow() {
+  // TODO
+}
+
+void  TestModOverflow() {
+  // TODO
+}
+
 void TestTrappingMul() {
   EXPECT_DEATH((trapping_mul<i32, i32, i32>(i32_max, 2)));
   EXPECT_DEATH((trapping_mul<i32, i32, i16>(i32_max, 1)));
@@ -212,6 +236,14 @@ void TestTrappingMod() {
     // EXPECT(expected ==
     //       (trapping_mod<u32, u32, u32>(u32_max, 2)));
   }
+}
+
+void TestTrappingConstructorDefault() {
+  // TODO
+}
+
+void TestTrappingConstructorT() {
+  // TODO
 }
 
 void TestTrappingCast() {
@@ -388,13 +420,24 @@ void TestMultiOperatorOverflow() {
 int main() {
   TestBasicAssumptions();
 
+  TestCastTruncate();
+
+  TestAddOverflow();
+  TestSubOverflow();
+  TestMulOverflow();
+  TestDivOverflow();
+  TestModOverflow();
+
+  TestTrappingCast();
+
   TestTrappingAdd();
   TestTrappingSub();
   TestTrappingMul();
   TestTrappingDiv();
   TestTrappingMod();
 
-  TestTrappingCast();
+  TestTrappingConstructorDefault();
+  TestTrappingConstructorT();
 
   TestTrappingOperatorAdd();
   TestTrappingOperatorSub();
