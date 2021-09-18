@@ -235,7 +235,7 @@ void TestMulOverflow() {
   // construction.
   {
     i32 result;
-    EXPECT(!(mul_overflow<i32, i32, i32>(i32_max, 1, &result)));
+    EXPECT(!(mul_overflow<i32, i32, i32>(i32_max, 0, &result)));
     EXPECT(!(mul_overflow<i32, i32, i32>(i32_max, 1, &result)));
     EXPECT((mul_overflow<i32, i32, i32>(i32_min, 2, &result)));
   }
@@ -280,7 +280,57 @@ void TestMulOverflow() {
 }
 
 void TestDivOverflow() {
-  // TODO
+  // TODO: Should generate this form of test for all types, using the Meredith
+  // construction.
+  {
+    i32 result;
+    EXPECT((div_overflow<i32, i32, i32>(i32_max, 0, &result)));
+    EXPECT(!(div_overflow<i32, i32, i32>(i32_max, 1, &result)));
+    EXPECT(!(div_overflow<i32, i32, i32>(i32_min, 2, &result)));
+    EXPECT((div_overflow<i32, i32, i32>(i32_min, -1, &result)));
+  }
+  {
+    i16 result;
+    EXPECT((div_overflow<i32, i32, i16>(i32_max, 0, &result)));
+    EXPECT(!(div_overflow<i16, i16, i16>(i16_max, 1, &result)));
+    EXPECT(!(div_overflow<i16, i16, i16>(i16_max, 2, &result)));
+    EXPECT(!(div_overflow<i16, i16, i16>(i16_max, -1, &result)));
+  }
+  {
+    u32 result;
+    EXPECT((div_overflow<u32, u32, u32>(u32_max, 0, &result)));
+    EXPECT(!(div_overflow<u32, u32, u32>(u32_max, 1, &result)));
+    EXPECT(!(div_overflow<u32, u32, u32>(u32_max, 2, &result)));
+    EXPECT(!(div_overflow<u32, u32, u32>(u32_max, u32_max, &result)));
+  }
+  {
+    u16 result;
+    EXPECT((div_overflow<u32, u32, u16>(u32_max, 0, &result)));
+    EXPECT(!(div_overflow<u16, u16, u16>(u16_max, 1, &result)));
+    EXPECT(!(div_overflow<u16, u16, u16>(u16_max, 2, &result)));
+    EXPECT(!(div_overflow<u16, u16, u16>(u16_max, u16_max, &result)));
+  }
+  {
+    i8 result;
+    EXPECT((div_overflow<i16, i16, i8>(i16_max, 0, &result)));
+    EXPECT((div_overflow<i16, i16, i8>(i16_max, 1, &result)));
+    EXPECT((div_overflow<i16, i16, i8>(i16_max, 2, &result)));
+    EXPECT(!(div_overflow<i16, i16, i8>(i16_max, -1, &result)));
+  }
+  {
+    u8 result;
+    EXPECT((div_overflow<u16, u16, u8>(u16_max, 0, &result)));
+    EXPECT((div_overflow<u16, u16, u8>(u16_min, 0, &result)));
+  }
+
+  {
+    const i64 expected = trapping_cast<u32, i64>(u32_max) / 1;
+    i64 result;
+    EXPECT(!(div_overflow<u32, u32, i64>(u32_max, 1, &result)));
+    EXPECT(expected == result);
+    EXPECT(!(div_overflow<u32, u16, i64>(u32_max, 1, &result)));
+    EXPECT(expected == result);
+  }
 }
 
 void TestModOverflow() {
