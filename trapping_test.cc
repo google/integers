@@ -108,7 +108,49 @@ void TestTrappingAdd() {
 }
 
 void TestCastTruncate() {
-  // TODO
+  // Expect narrowing casts out of range of `R` to truncate:
+  {
+    i8 result;
+    EXPECT((cast_truncate<i16, i8>(i16_max, &result)));
+    EXPECT((cast_truncate<i32, i8>(i16_max, &result)));
+    EXPECT((cast_truncate<i64, i8>(i16_max, &result)));
+  }
+  {
+    u8 result;
+    EXPECT((cast_truncate<i16, u8>(i16_max, &result)));
+    EXPECT((cast_truncate<i32, u8>(i16_max, &result)));
+    EXPECT((cast_truncate<i64, u8>(i16_max, &result)));
+  }
+
+  // Expect narrowing casts in range of `R` not to truncate:
+  {
+    i8 result;
+    EXPECT(!(cast_truncate<i16, i8>(i8_max, &result)));
+    EXPECT(!(cast_truncate<i32, i8>(i8_max, &result)));
+    EXPECT(!(cast_truncate<i64, i8>(i8_max, &result)));
+  }
+  {
+    u8 result;
+    EXPECT(!(cast_truncate<i16, u8>(i8_max, &result)));
+    EXPECT(!(cast_truncate<i32, u8>(i8_max, &result)));
+    EXPECT(!(cast_truncate<i64, u8>(i8_max, &result)));
+  }
+
+  // Expect negative values to truncate when cast to unsigned:
+  {
+    u32 result;
+    EXPECT((cast_truncate<i16, u32>(-1, &result)));
+    EXPECT((cast_truncate<i32, u32>(-1, &result)));
+    EXPECT((cast_truncate<i64, u32>(-1, &result)));
+  }
+
+  // Expect positive, in-range values to truncate when cast to unsigned:
+  {
+    u32 result;
+    EXPECT(!(cast_truncate<i16, u32>(i16_max, &result)));
+    EXPECT(!(cast_truncate<i32, u32>(i16_max, &result)));
+    EXPECT(!(cast_truncate<i64, u32>(i16_max, &result)));
+  }
 }
 
 void TestAddOverflow() {
