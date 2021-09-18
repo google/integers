@@ -174,13 +174,13 @@ bool cast_truncate(T value, R* result) {
 #undef STATIC_CAST_AND_RETURN
 }
 
-// TODO NOTE: For `*_overflow`, `Result<R> { R, bool }` instead of returning
-// `bool` and writing to an `R*` out-parameter might be more readable and/or may
-// result in better object code. Preliminary testing shows that at -O0, the
-// `Result` version produces much worse code; at -O1, `Result` is marginally
-// better; and at -O2 and higher, both get inlined into oblivion. So, we should
-// decide on the basis of readability, since for builders who care about
-// optimization it seems essentially not to matter.
+// NOTE: For `*_overflow`, `Result<R> { R, bool }` instead of returning `bool`
+// and writing to an `R*` out-parameter might be more readable and/or may result
+// in better object code. Preliminary testing shows that at -O0, the `Result`
+// version produces much worse code; at -O1, `Result` is marginally better; and
+// at -O2 and higher, both get inlined into oblivion. So, we should decide on
+// the basis of readability, since for builders who care about optimization it
+// seems essentially not to matter.
 //
 // Note that `std::optional` would seem to be the right type to use here, but
 // since it introduces new UB — the opposite of what we are trying to achieve
