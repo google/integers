@@ -38,9 +38,6 @@ class clamping {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
 
   using Self = clamping<T>;
-  using value_type = std::remove_cv_t<T>;
-  using pointer = T*;
-  using reference = T&;
 
  public:
  private:

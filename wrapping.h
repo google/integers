@@ -110,9 +110,6 @@ class wrapping {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
 
   using Self = wrapping<T>;
-  using value_type = std::remove_cv_t<T>;
-  using pointer = T*;
-  using reference = T&;
 
  public:
  private:

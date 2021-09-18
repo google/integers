@@ -38,6 +38,11 @@ void assert_in_range(const T& value) {
 /// TODO: Documentation.
 template <typename T, T Min, T Max>
 class ranged {
+  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  static_assert(Min <= Max, "Min must be <= Max.");
+
+  using Self = ranged<T, Min, Max>;
+
  public:
   ranged() : value_(0) { assert_in_range<T, Min, Max>(value_); }
 
