@@ -113,27 +113,27 @@ void TestTrappingAdd() {
   EXPECT(expected == (trapping_add<u32, u16, i64>(u32_max, 1)));
 }
 
-void  TestCastTruncate() {
+void TestCastTruncate() {
   // TODO
 }
 
-void  TestAddOverflow() {
+void TestAddOverflow() {
   // TODO
 }
 
-void  TestSubOverflow() {
+void TestSubOverflow() {
   // TODO
 }
 
-void  TestMulOverflow() {
+void TestMulOverflow() {
   // TODO
 }
 
-void  TestDivOverflow() {
+void TestDivOverflow() {
   // TODO
 }
 
-void  TestModOverflow() {
+void TestModOverflow() {
   // TODO
 }
 
@@ -440,7 +440,6 @@ void TestTrappingOperatorEqual() {
 void TestTrappingOperatorNotEqual() {
   // TODO
 }
-
 
 void TestTrappingOperatorIncrement() {
   // TODO
