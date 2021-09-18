@@ -21,6 +21,10 @@
 
 #include <iostream>
 
+#if defined(NDEBUG)
+#error Tests must be built with `NDEBUG` undefined.
+#endif
+
 namespace integers {
 
 void PrintBacktrace();

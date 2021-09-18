@@ -21,10 +21,6 @@
 using namespace integers;
 using namespace std;
 
-#if defined(NDEBUG)
-#error Tests must be built with `NDEBUG` undefined.
-#endif
-
 namespace {
 
 bool failure = false;

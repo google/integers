@@ -21,11 +21,6 @@
 using namespace integers;
 using namespace std;
 
-// TODO: Remove this from *_test.cc and put it in expectations.h?
-#if defined(NDEBUG)
-#error Tests must be built with `NDEBUG` undefined.
-#endif
-
 namespace {
 
 // TODO: Remove this from *_test.cc and put it in expectations.{cc,h}?
