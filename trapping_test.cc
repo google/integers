@@ -452,8 +452,7 @@ void TestOperatorU() {
 }
 
 void TestMultiOperatorOverflow() {
-  // TODO: Parameterize this for u8, u16, u32. If we ever support u128, can add
-  // u64 to that.
+  // TODO: Parameterize this for u8, u16, u32.
   {
     trapping<u16> x = i16_max;
     // I.e. we expect headroom in a u16 above the *signed* 16-bit max:
