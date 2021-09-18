@@ -450,17 +450,12 @@ void TestDiv() {
 }
 
 void TestMod() {
-  // TODO: Get this test working (see below).
-  return;
-
   // TODO: Generate all possible type combos with the Meredith construct.
   EXPECT(1 == (trapping_mod<i32, i32, i16>(i32_max, 2)));
   EXPECT(1 == (trapping_mod<u32, u32, u16>(u32_max, 2)));
   EXPECT(0 == (trapping_mod<i16, i16, i8>(i16_max, 1)));
-  // TODO: This ends up in `NOTREACHED` in `cast_truncate` — we're not covering
-  // all cases there, yet. Sigh.
-  // EXPECT(1 == (trapping_mod<u16, u16, u16>(u16_max, 2)));
-  EXPECT(1 == (trapping_mod<u16, u16, u8>(u16_max, 1)));
+  EXPECT(1 == (trapping_mod<u16, u16, u16>(u16_max, 2)));
+  EXPECT(0 == (trapping_mod<u16, u16, u8>(u16_max, 1)));
 
   // TODO: Generate all possible type combos with the Meredith construct.
   {
