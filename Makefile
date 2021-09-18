@@ -1,5 +1,5 @@
 CXX = clang++
-CXXFLAGS = -Weverything -Werror -Wno-poison-system-directories -Wno-c++98-compat -O0 -g
+CXXFLAGS = -Weverything -Werror -Wno-poison-system-directories -Wno-c++98-compat -O0
 FORMAT = clang-format
 FORMAT_FLAGS = -i -style=Chromium
 
