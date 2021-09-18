@@ -108,63 +108,63 @@ bool cast_truncate(T value, R* result) {
   // except for the correct one for the call site's `T` and `R`, including the
   // `NOTREACHED`s, should be optimized away.
 
-  if (T_signed && R_signed) {
+  if constexpr (T_signed && R_signed) {
     if (T_size == R_size) {
       // std::is_same_v<T, R>
       STATIC_CAST_AND_RETURN;
-    } else if (T_size > R_size) {
+    } else if constexpr (T_size > R_size) {
       if (value > std::numeric_limits<R>::max()) {
         return true;
       }
       STATIC_CAST_AND_RETURN;
-    } else if (T_size < R_size) {
+    } else if constexpr (T_size < R_size) {
       STATIC_CAST_AND_RETURN;
     } else {
       NOTREACHED();
     }
-  } else if (!T_signed && !R_signed) {
+  } else if constexpr (!T_signed && !R_signed) {
     if (T_size == R_size) {
       // std::is_same_v<T, R>
       STATIC_CAST_AND_RETURN;
-    } else if (T_size > R_size) {
+    } else if constexpr (T_size > R_size) {
       if (value > std::numeric_limits<R>::max()) {
         return true;
       }
       STATIC_CAST_AND_RETURN;
-    } else if (T_size < R_size) {
+    } else if constexpr (T_size < R_size) {
       STATIC_CAST_AND_RETURN;
     } else {
       NOTREACHED();
     }
-  } else if (T_signed && !R_signed) {
+  } else if constexpr (T_signed && !R_signed) {
     if (value < 0) {
       return true;
     }
-    if (T_size == R_size) {
+    if constexpr (T_size == R_size) {
       // This is safe because at this point, we know `value >= 0` and that `R`,
       // which is unsigned, can hold any possible value of `value`.
       STATIC_CAST_AND_RETURN;
-    } else if (T_size > R_size) {
+    } else if constexpr (T_size > R_size) {
       using U = typename std::make_unsigned<T>::type;
       U unsigned_value = static_cast<U>(value);
       if (unsigned_value > std::numeric_limits<R>::max()) {
         return true;
       }
       STATIC_CAST_AND_RETURN;
-    } else if (T_size < R_size) {
+    } else if constexpr (T_size < R_size) {
       STATIC_CAST_AND_RETURN;
     } else {
       NOTREACHED();
     }
-  } else if (!T_signed && R_signed) {
+  } else if constexpr (!T_signed && R_signed) {
     if (value > std::numeric_limits<R>::max()) {
       return true;
     }
-    if (T_size == R_size) {
+    if constexpr (T_size == R_size) {
       STATIC_CAST_AND_RETURN;
-    } else if (T_size > R_size) {
+    } else if constexpr (T_size > R_size) {
       STATIC_CAST_AND_RETURN;
-    } else if (T_size < R_size) {
+    } else if constexpr (T_size < R_size) {
       STATIC_CAST_AND_RETURN;
     } else {
       NOTREACHED();
