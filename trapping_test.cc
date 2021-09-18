@@ -215,7 +215,7 @@ void TestSubOverflow() {
     u16 result;
     // BUG?: Adding 0 returns true, but substracting 0 does not (see
     // `TestAddOverflow`). Why?
-    //EXPECT((sub_overflow<u32, u32, u16>(u32_min, 0, &result)));
+    // EXPECT((sub_overflow<u32, u32, u16>(u32_min, 0, &result)));
     EXPECT((sub_overflow<u16, u16, u16>(u16_min, 1, &result)));
   }
   {
@@ -225,10 +225,10 @@ void TestSubOverflow() {
     EXPECT((sub_overflow<i16, i16, i8>(i16_min, 0, &result)));
   }
   {
-    // BUG?: Adding 0 returns true, but substracting 0 does not (see
-    // `TestAddOverflow`). Why?
-    //u8 result;
-    //EXPECT((sub_overflow<u16, u16, u8>(u16_min, 0, &result)));
+      // BUG?: Adding 0 returns true, but substracting 0 does not (see
+      // `TestAddOverflow`). Why?
+      // u8 result;
+      // EXPECT((sub_overflow<u16, u16, u8>(u16_min, 0, &result)));
   }
 
   {
