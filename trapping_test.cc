@@ -92,7 +92,7 @@ void TestBasicAssumptions() {
   EXPECT(u64_min == 0x0);
 }
 
-void TestTrappingAdd() {
+void TestAdd() {
   EXPECT_DEATH((trapping_add<i32, i32, i32>(i32_max, 1)));
   EXPECT_DEATH((trapping_add<i32, i32, i16>(i32_max, 0)));
   EXPECT_DEATH((trapping_add<u32, u32, u32>(u32_max, 1)));
@@ -207,7 +207,7 @@ void TestModOverflow() {
   // TODO
 }
 
-void TestTrappingMul() {
+void TestMul() {
   EXPECT_DEATH((trapping_mul<i32, i32, i32>(i32_max, 2)));
   EXPECT_DEATH((trapping_mul<i32, i32, i16>(i32_max, 1)));
   EXPECT_DEATH((trapping_mul<u32, u32, u32>(u32_max, 2)));
@@ -222,7 +222,7 @@ void TestTrappingMul() {
   EXPECT(expected == (trapping_mul<u32, u16, i64>(u32_max, 2)));
 }
 
-void TestTrappingSub() {
+void TestSub() {
   EXPECT_DEATH((trapping_sub<i32, i32, i32>(i32_min, 1)));
   EXPECT_DEATH((trapping_sub<i32, i32, i16>(i32_min, 0)));
   EXPECT_DEATH((trapping_sub<u32, u32, u32>(u32_min, 1)));
@@ -237,7 +237,7 @@ void TestTrappingSub() {
   EXPECT(expected == (trapping_sub<u32, u16, i64>(u32_min, 1)));
 }
 
-void TestTrappingDiv() {
+void TestDiv() {
   EXPECT_DEATH((trapping_div<i32, i32, i16>(i32_max, 2)));
   EXPECT_DEATH((trapping_div<u32, u32, u16>(u32_max, 2)));
   EXPECT_DEATH((trapping_div<i16, i16, i8>(i16_max, 1)));
@@ -269,7 +269,7 @@ void TestTrappingDiv() {
   }
 }
 
-void TestTrappingMod() {
+void TestMod() {
   // TODO: Get this test working (see below).
   return;
 
@@ -308,15 +308,15 @@ void TestTrappingMod() {
   }
 }
 
-void TestTrappingConstructorDefault() {
+void TestConstructorDefault() {
   // TODO
 }
 
-void TestTrappingConstructorT() {
+void TestConstructorT() {
   // TODO
 }
 
-void TestTrappingCast() {
+void TestCast() {
   // Thanks to Steve Checkoway for this test case. The cast has already happened
   // by the time the constructor gets to check the value. There may be nothing
   // we can do about this. TODO: Maybe all we can do is document this problem?
@@ -403,7 +403,7 @@ void CallMinAdd1() {
   (MinAdd1<T>(), ...);
 }
 
-void TestTrappingOperatorAdd() {
+void TestOperatorAdd() {
   CallMaxAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
   CallMinAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
@@ -435,7 +435,7 @@ void CallMaxSub1() {
   (MaxSub1<T>(), ...);
 }
 
-void TestTrappingOperatorSub() {
+void TestOperatorSub() {
   CallMaxSub1<i8, u8, i16, u16, i32, u32, i64, u64>();
   CallMinSub1<i8, u8, i16, u16, i32, u32, i64, u64>();
 
@@ -446,32 +446,32 @@ void TestTrappingOperatorSub() {
   }
 }
 
-void TestTrappingOperatorMul() {
+void TestOperatorMul() {
   CallMaxAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
   CallMinAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
-void TestTrappingOperatorDiv() {
+void TestOperatorDiv() {
   // TODO
 }
 
-void TestTrappingOperatorMod() {
+void TestOperatorMod() {
   // TODO
 }
 
-void TestTrappingOperatorOr() {
+void TestOperatorOr() {
   // TODO
 }
 
-void TestTrappingOperatorAnd() {
+void TestOperatorAnd() {
   // TODO
 }
 
-void TestTrappingOperatorXor() {
+void TestOperatorXor() {
   // TODO
 }
 
-void TestTrappingOperatorLeftShift() {
+void TestOperatorLeftShift() {
   {
     trapping<i32> x = 1;
     x <<= 1;
@@ -483,39 +483,39 @@ void TestTrappingOperatorLeftShift() {
   }
 }
 
-void TestTrappingOperatorRightShift() {
+void TestOperatorRightShift() {
   // TODO
 }
 
-void TestTrappingOperatorLessThan() {
+void TestOperatorLessThan() {
   // TODO
 }
 
-void TestTrappingOperatorGreaterThan() {
+void TestOperatorGreaterThan() {
   // TODO
 }
 
-void TestTrappingOperatorLessThanOrEqual() {
+void TestOperatorLessThanOrEqual() {
   // TODO
 }
 
-void TestTrappingOperatorGreaterThanOrEqual() {
+void TestOperatorGreaterThanOrEqual() {
   // TODO
 }
 
-void TestTrappingOperatorEqual() {
+void TestOperatorEqual() {
   // TODO
 }
 
-void TestTrappingOperatorNotEqual() {
+void TestOperatorNotEqual() {
   // TODO
 }
 
-void TestTrappingOperatorIncrement() {
+void TestOperatorIncrement() {
   // TODO
 }
 
-void TestTrappingOperatorDecrement() {
+void TestOperatorDecrement() {
   // TODO
 }
 
@@ -553,39 +553,39 @@ int main() {
   TestDivOverflow();
   TestModOverflow();
 
-  TestTrappingCast();
+  TestCast();
 
-  TestTrappingAdd();
-  TestTrappingSub();
-  TestTrappingMul();
-  TestTrappingDiv();
-  TestTrappingMod();
+  TestAdd();
+  TestSub();
+  TestMul();
+  TestDiv();
+  TestMod();
 
-  TestTrappingConstructorDefault();
-  TestTrappingConstructorT();
+  TestConstructorDefault();
+  TestConstructorT();
 
-  TestTrappingOperatorAdd();
-  TestTrappingOperatorSub();
-  TestTrappingOperatorMul();
-  TestTrappingOperatorDiv();
-  TestTrappingOperatorMod();
+  TestOperatorAdd();
+  TestOperatorSub();
+  TestOperatorMul();
+  TestOperatorDiv();
+  TestOperatorMod();
 
-  TestTrappingOperatorOr();
-  TestTrappingOperatorAnd();
-  TestTrappingOperatorXor();
+  TestOperatorOr();
+  TestOperatorAnd();
+  TestOperatorXor();
 
-  TestTrappingOperatorRightShift();
-  TestTrappingOperatorLeftShift();
+  TestOperatorRightShift();
+  TestOperatorLeftShift();
 
-  TestTrappingOperatorLessThan();
-  TestTrappingOperatorGreaterThan();
-  TestTrappingOperatorLessThanOrEqual();
-  TestTrappingOperatorGreaterThanOrEqual();
-  TestTrappingOperatorEqual();
-  TestTrappingOperatorNotEqual();
+  TestOperatorLessThan();
+  TestOperatorGreaterThan();
+  TestOperatorLessThanOrEqual();
+  TestOperatorGreaterThanOrEqual();
+  TestOperatorEqual();
+  TestOperatorNotEqual();
 
-  TestTrappingOperatorIncrement();
-  TestTrappingOperatorDecrement();
+  TestOperatorIncrement();
+  TestOperatorDecrement();
 
   TestOperatorT();
   TestOperatorU();
