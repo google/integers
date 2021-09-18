@@ -421,7 +421,9 @@ class trapping {
 
  public:
   // We comment this version out, because it breaks `std::is_trivial`, which we
-  // want for good code generation.
+  // want for good code generation. TODO: However, we might be able to assert
+  // just `is_trivially_copyable` and get the defined behavior in the
+  // constructor, and good enough code generation.
   //
   // ### `trapping`
   //

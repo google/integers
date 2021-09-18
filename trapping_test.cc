@@ -484,7 +484,9 @@ void TestMod() {
 }
 
 void TestConstructorDefault() {
-  // TODO
+  // TODO: See comments in trapping.h. Someday, we can do this:
+  // trapping<int> x;
+  // EXPECT(0 == x);
 }
 
 void TestConstructorT() {
