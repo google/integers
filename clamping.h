@@ -35,7 +35,7 @@ namespace integers {
 /// TODO: Documentation.
 template <typename T>
 class clamping {
-  static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
+  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
 
   using Self = clamping<T>;
   using value_type = std::remove_cv_t<T>;
