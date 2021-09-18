@@ -46,6 +46,9 @@ ranged_test_17: ranged_test.cc ranged.h expectations.h expectations.o
 size:
 	wc *.{h,cc}
 
+push:
+	git push -u origin
+
 format:
 	$(FORMAT) $(FORMAT_FLAGS) *.{cc,h}
 
