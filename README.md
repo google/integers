@@ -6,13 +6,17 @@ casts, and shifting too far.
 
 Defined behaviors are wrapping, trapping, or clamping/saturating. You choose
 your preferred policy/behavior by using the stand-alone template helper
-functions and/or the template classes. There is also a `ranged<T>` template
-class for situations where you need a type that constrains integers to a
-specific range of values.
+functions and/or the template classes.
 
-The goal of this library is that you can simply drop in the right type for your
-situation, and the rest of your code works as expected — the template classes
-should be fully compatible with the built-in primitive types.
+There is also a `ranged<T>` template class for situations where you need a type
+that constrains integers to a specific range of values.
+
+The main goal of this library is that you can simply drop in the right type for
+your situation, and the rest of your code works as expected — the template
+classes should be fully compatible with the built-in primitive types. Another
+goal is that this library should be easy to import and use, without any
+transitive dependencies or other complications. This library is tested with
+C++17 and C++20.
 
 An example use-case is file format parsers and deserializers and so on, which
 are constantly calculating and re-calculating offsets and indices into files. It
@@ -22,10 +26,7 @@ integer semantics.
 For full documentation, see the Markdown comments in the header files.
 
 TODO: Consider providing some operations that don’t exist (such as rotate) for
-standard C and C++ integers, and a 128-bit type. Consider also: providing ranged
-integers, e.g. `ranged<15, 100>` meaning “an integer that can hold values in the
-range [15, 100) and which traps if arithmetic sends it out of range.” Find a way
-to let the caller specify trapping, wrapping, or clamping.
+standard C and C++ integers.
 
 `integers` will have a complete test suite. That’s a TODO in progress, along
 with the rest of the implementation work. Currently only `trapping<T>` and its
