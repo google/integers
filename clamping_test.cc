@@ -16,7 +16,7 @@
 #include <limits>
 
 #include "clamping.h"
-#include "expectations.h"
+#include "test_support.h"
 
 using namespace integers;
 using namespace std;

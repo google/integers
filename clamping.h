@@ -22,8 +22,6 @@
 #include <limits>
 #include <type_traits>
 
-#include "expectations.h"
-
 namespace integers {
 
 /// ## Clamping Operations

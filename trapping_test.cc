@@ -15,7 +15,7 @@
 #include <iostream>
 #include <limits>
 
-#include "expectations.h"
+#include "test_support.h"
 #include "trapping.h"
 
 using namespace integers;

@@ -22,7 +22,6 @@
 #include <limits>
 #include <type_traits>
 
-#include "expectations.h"
 #include "trap.h"
 
 namespace {
