@@ -30,7 +30,7 @@ namespace {
 // value for its type. Such division is UB, so must be avoided. This function is
 // used in `div_overflow` and `mod_overflow`.
 template <typename T, typename U>
-bool divide_min_by_negative_1(const T& dividend, const U& divisor) {
+bool divide_min_by_negative_1(T dividend, U divisor) {
   // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
   // https://isocpp.org/files/papers/N4860.pdf.)
   return std::is_signed<U>::value &&
@@ -198,7 +198,7 @@ bool cast_truncate(T value, R* result) {
 /// Adds `x` to `y` and stores the result in `result` (which can be a pointer to
 /// `x`, `y`, or another object). Returns true if the operation overflowed.
 template <typename T, typename U, typename R>
-bool add_overflow(const T& x, const U& y, R* result) {
+bool add_overflow(T x, U y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -215,7 +215,7 @@ bool add_overflow(const T& x, const U& y, R* result) {
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
 template <typename T, typename U, typename R>
-bool sub_overflow(const T& x, const U& y, R* result) {
+bool sub_overflow(T x, U y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -232,7 +232,7 @@ bool sub_overflow(const T& x, const U& y, R* result) {
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
 template <typename T, typename U, typename R>
-bool mul_overflow(const T& x, const U& y, R* result) {
+bool mul_overflow(T x, U y, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -253,7 +253,7 @@ bool mul_overflow(const T& x, const U& y, R* result) {
 /// https://stackoverflow.com/questions/30394086/integer-division-overflows.
 /// Thanks, chux!
 template <typename T, typename U, typename R>
-bool div_overflow(const T& dividend, const U& divisor, R* result) {
+bool div_overflow(T dividend, U divisor, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -279,7 +279,7 @@ bool div_overflow(const T& dividend, const U& divisor, R* result) {
 /// https://stackoverflow.com/questions/30394086/integer-division-overflows.
 /// Thanks, chux!
 template <typename T, typename U, typename R>
-bool mod_overflow(const T& dividend, const U& divisor, R* result) {
+bool mod_overflow(T dividend, U divisor, R* result) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -303,7 +303,7 @@ bool mod_overflow(const T& dividend, const U& divisor, R* result) {
 /// can happen on some narrowing conversions, and if `value` is signed and < 0
 /// and `R` is unsigned.)
 template <typename T, typename R>
-R trapping_cast(const T& value) {
+R trapping_cast(T value) {
   R result = 0;
   if (cast_truncate(value, &result)) {
     trap();
@@ -316,7 +316,7 @@ R trapping_cast(const T& value) {
 /// Adds `x` and `y` and returns the result. If the operation overflows, or
 /// cannot fit into type `R`, this function will `trap`.
 template <typename T, typename U, typename R>
-R trapping_add(const T& x, const U& y) {
+R trapping_add(T x, U y) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -333,7 +333,7 @@ R trapping_add(const T& x, const U& y) {
 /// Multiplies `x` and `y` and returns the result. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename T, typename U, typename R>
-R trapping_mul(const T& x, const U& y) {
+R trapping_mul(T x, U y) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -351,7 +351,7 @@ R trapping_mul(const T& x, const U& y) {
 /// Subtracts `y` from `x` and returns the result. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename T, typename U, typename R>
-R trapping_sub(const T& x, const U& y) {
+R trapping_sub(T x, U y) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -369,7 +369,7 @@ R trapping_sub(const T& x, const U& y) {
 /// Divides `dividend` by `divisor` and returns the quotient. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename T, typename U, typename R>
-R trapping_div(const T& dividend, const U& divisor) {
+R trapping_div(T dividend, U divisor) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -387,7 +387,7 @@ R trapping_div(const T& dividend, const U& divisor) {
 /// Divides `dividend` by `divisor` and returns the remainder. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename T, typename U, typename R>
-R trapping_mod(const T& dividend, const U& divisor) {
+R trapping_mod(T dividend, U divisor) {
   static_assert(std::is_integral<T>::value, "`T` must be an integral type.");
   static_assert(std::is_integral<U>::value, "`U` must be an integral type.");
   static_assert(std::is_integral<R>::value, "`R` must be an integral type.");
@@ -436,7 +436,7 @@ class trapping {
   /// ### `trapping`
   ///
   /// Constructs and initializes `value_` to `value`.
-  trapping(const T& value) : value_(value) {}
+  trapping(T value) : value_(value) {}
 
   // If we un-comment these `operator=`s, `std::is_trivial` will no longer be
   // true. We really want for it to be true, because clang++ generates
@@ -453,7 +453,7 @@ class trapping {
   // ### `operator=`
   //
   // Copy assignment.
-  // Self& operator=(const Self& other) {
+  // Self& operator=(Self other) {
   //   if (this == &other) {
   //     return *this;
   //   }
@@ -488,7 +488,7 @@ class trapping {
   /// ### `operator+=`
   ///
   /// Increments by `x`, `trap`ping on overflow.
-  Self& operator+=(const T& x) {
+  Self& operator+=(T x) {
     value_ = trapping_add<T, T, T>(value_, x);
     return *this;
   }
@@ -497,7 +497,7 @@ class trapping {
   ///
   /// Adds `rhs` to `lhs`, assigns the result to `lhs`, and returns it.
   /// `trap`s on overflow.
-  friend Self operator+(Self lhs, const Self& rhs) {
+  friend Self operator+(Self lhs, Self rhs) {
     lhs += rhs;
     return lhs;
   }
@@ -510,7 +510,7 @@ class trapping {
   /// ### `operator-=`
   ///
   /// Subtracts `x`, `trap`ping on overflow.
-  Self& operator-=(const T& x) {
+  Self& operator-=(T x) {
     value_ = trapping_sub<T, T, T>(value_, x);
     return *this;
   }
@@ -519,7 +519,7 @@ class trapping {
   ///
   /// Subtracts `rhs` from `lhs`, assigns the result to `lhs`, and returns
   /// it. `trap`s on overflow.
-  friend Self operator-(Self lhs, const Self& rhs) {
+  friend Self operator-(Self lhs, Self rhs) {
     lhs -= rhs;
     return lhs;
   }
@@ -541,7 +541,7 @@ class trapping {
   /// ### `operator*=`
   ///
   /// Multiplies by `x`, `trap`ping on overflow.
-  Self& operator*=(const T& x) {
+  Self& operator*=(T x) {
     value_ = trapping_mul<T, T, T>(value_, x);
     return *this;
   }
@@ -550,7 +550,7 @@ class trapping {
   ///
   /// Multiplies `lhs` by `rhs`, assigns the result to `lhs`, and returns
   /// it. `trap`s on overflow.
-  friend Self operator*(Self lhs, const Self& rhs) {
+  friend Self operator*(Self lhs, Self rhs) {
     lhs *= rhs;
     return lhs;
   }
@@ -559,7 +559,7 @@ class trapping {
   ///
   /// Divides by `divisor`, storing the quotient in `*this`, and `trap`ping
   /// on overflow or if `divisor` is 0.
-  Self& operator/=(const T& divisor) {
+  Self& operator/=(T divisor) {
     value_ = trapping_div<T, T, T>(value_, divisor);
     return *this;
   }
@@ -568,7 +568,7 @@ class trapping {
   ///
   /// Divides `dividend` by `divisor`, storing the quotient in `dividend`, and
   /// returns `dividend`. `trap`s on overflow or if `divisor` is 0.
-  friend Self operator/(Self dividend, const Self& divisor) {
+  friend Self operator/(Self dividend, Self divisor) {
     dividend /= divisor;
     return dividend;
   }
@@ -577,7 +577,7 @@ class trapping {
   ///
   /// Divides by `divisor`, storing the remainder in `*this`, and `trap`ping on
   /// overflow or if `divisor` is 0.
-  Self& operator%=(const T& divisor) {
+  Self& operator%=(T divisor) {
     value_ = trapping_mod<T, T, T>(value_, divisor);
     return *this;
   }
@@ -586,7 +586,7 @@ class trapping {
   ///
   /// Divides `dividend` by `divisor`, storing the remainder in `dividend`, and
   /// returns `dividend`. `trap`s on overflow or if `divisor` is 0.
-  friend Self operator%(Self dividend, const Self& divisor) {
+  friend Self operator%(Self dividend, Self divisor) {
     dividend %= divisor;
     return dividend;
   }
@@ -595,7 +595,7 @@ class trapping {
   ///
   /// Takes the bitwise `|` of the value and `x`, and assigns it to `value_`.
   /// Returns `*this`.
-  Self& operator|=(const T& x) {
+  Self& operator|=(T x) {
     value_ |= x.value_;
     return *this;
   }
@@ -604,7 +604,7 @@ class trapping {
   ///
   /// Takes the bitwise `|` of `lhs` and `rhs`, assigns it to `lhs`, and returns
   /// it.
-  friend Self operator|(Self lhs, const Self& rhs) {
+  friend Self operator|(Self lhs, Self rhs) {
     lhs |= rhs;
     return lhs;
   }
@@ -613,7 +613,7 @@ class trapping {
   ///
   /// Takes the bitwise `&` of the value and `x`, and assigns it to `value_`.
   /// Returns `*this`.
-  Self& operator&=(const T& x) {
+  Self& operator&=(T x) {
     value_ &= x.value_;
     return *this;
   }
@@ -622,7 +622,7 @@ class trapping {
   ///
   /// Takes the bitwise `&` of `lhs` and `rhs`, assigns it to `lhs`, and returns
   /// it.
-  friend Self operator&(Self lhs, const Self& rhs) {
+  friend Self operator&(Self lhs, Self rhs) {
     lhs &= rhs;
     return lhs;
   }
@@ -631,7 +631,7 @@ class trapping {
   ///
   /// Takes the bitwise `^` of the value and `x`, and assigns it to `value_`.
   /// Returns `*this`.
-  Self& operator^=(const T& x) {
+  Self& operator^=(T x) {
     value_ ^= x.value_;
     return *this;
   }
@@ -640,7 +640,7 @@ class trapping {
   ///
   /// Takes the bitwise `&` of `lhs` and `rhs`, assigns it to `lhs`, and returns
   /// it.
-  friend Self operator^(Self lhs, const Self& rhs) {
+  friend Self operator^(Self lhs, Self rhs) {
     lhs |= rhs;
     return lhs;
   }
@@ -649,7 +649,7 @@ class trapping {
   ///
   /// Shifts the value right by `x` bits, and assigns the result to `value_`.
   /// Returns `*this`. `trap`s if `x` is more than there are bits in the value.
-  Self& operator>>=(const T& x) {
+  Self& operator>>=(T x) {
     if (x < 1 || x > (CHAR_BIT * sizeof(T) - 1)) {
       trap();
     }
@@ -661,7 +661,7 @@ class trapping {
   ///
   /// Shifts `lhs` right by `x` bits, assigns the result to `lhs`, and returns
   /// it.. `trap`s if `x` is more than there are bits in the value.
-  friend Self operator>>(Self lhs, const Self& rhs) {
+  friend Self operator>>(Self lhs, Self rhs) {
     lhs >>= rhs;
     return lhs;
   }
@@ -671,7 +671,7 @@ class trapping {
   /// Shifts the value left by `x` bits, and assigns the result to `value_`.
   /// Returns `*this`. `trap`s if `x` is more than there are bits in the value
   /// or if bits ‘fall off’ the left side (i.e. the shift overflows).
-  Self& operator<<=(const T& x) {
+  Self& operator<<=(T x) {
     if (x < 1 || static_cast<size_t>(x) > (CHAR_BIT * sizeof(T) - 1U)) {
       trap();
     }
@@ -704,7 +704,7 @@ class trapping {
   /// Shifts `lhs` left by `x` bits, and assigns the result to `lhs`, and
   /// returns it.. `trap`s if `x` is more than there are bits in the value or if
   /// bits ‘fall off’ the left side (i.e. the shift overflows).
-  friend Self operator<<(Self lhs, const Self& rhs) {
+  friend Self operator<<(Self lhs, Self rhs) {
     lhs <<= rhs;
     return lhs;
   }
@@ -712,76 +712,76 @@ class trapping {
   /// ### `operator<`
   ///
   /// Returns true if `lhs` is less than `rhs`.
-  friend bool operator<(const Self& lhs, const Self& rhs) {
+  friend bool operator<(Self lhs, Self rhs) {
     return lhs.value_ < rhs.value_;
   }
 
   /// ### `operator<`
   ///
   /// Returns true if `lhs` is less than `rhs`.
-  friend bool operator<(const Self& lhs, const T& rhs) {
+  friend bool operator<(Self lhs, T rhs) {
     return lhs.value_ < rhs;
   }
 
   /// ### `operator>`
   ///
   /// Returns true if `lhs` is greater than `rhs`.
-  friend bool operator>(const Self& lhs, const Self& rhs) { return rhs < lhs; }
+  friend bool operator>(Self lhs, Self rhs) { return rhs < lhs; }
 
   /// ### `operator>`
   ///
   /// Returns true if `lhs` is greater than `rhs`.
-  friend bool operator>(const Self& lhs, const T& rhs) { return rhs < lhs; }
+  friend bool operator>(Self lhs, T rhs) { return rhs < lhs; }
 
   /// ### `operator<=`
   ///
   /// Returns true if `lhs` is less than or equal to `rhs`.
-  friend bool operator<=(const Self& lhs, const Self& rhs) {
+  friend bool operator<=(Self lhs, Self rhs) {
     return !(lhs > rhs);
   }
 
   /// ### `operator<=`
   ///
   /// Returns true if `lhs` is less than or equal to `rhs`.
-  friend bool operator<=(const Self& lhs, const T& rhs) { return !(lhs > rhs); }
+  friend bool operator<=(Self lhs, T rhs) { return !(lhs > rhs); }
 
   /// ### `operator>=`
   ///
   /// Returns true if `lhs` is greater than or equal to `rhs`.
-  friend bool operator>=(const Self& lhs, const Self& rhs) {
+  friend bool operator>=(Self lhs, Self rhs) {
     return !(rhs > lhs);
   }
 
   /// ### `operator>=`
   ///
   /// Returns true if `lhs` is greater than or equal to `rhs`.
-  friend bool operator>=(const Self& lhs, const T& rhs) { return !(rhs > lhs); }
+  friend bool operator>=(Self lhs, T rhs) { return !(rhs > lhs); }
 
   /// ### `operator==`
   ///
   /// Returns true if `lhs` is equal to `rhs`.
-  friend bool operator==(const Self& lhs, const Self& rhs) {
+  friend bool operator==(Self lhs, Self rhs) {
     return lhs.value_ == rhs.value_;
   }
 
   /// ### `operator==`
   ///
   /// Returns true if `lhs` is equal to `rhs`.
-  friend bool operator==(const Self& lhs, const T& rhs) {
+  friend bool operator==(Self lhs, T rhs) {
     return lhs.value_ == rhs;
   }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(const Self& lhs, const Self& rhs) {
+  friend bool operator!=(Self lhs, Self rhs) {
     return !(lhs == rhs);
   }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(const Self& lhs, const T& rhs) {
+  friend bool operator!=(Self lhs, T rhs) {
     return !(lhs == rhs);
   }
 
