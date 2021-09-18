@@ -405,7 +405,7 @@ void TestTrappingOperatorLeftShift() {
   {
     trapping<i32> x = 1;
     x <<= 1;
-    EXPECT(2 == x);
+    EXPECT(x == 2);
   }
   {
     trapping<i32> x = 1;
