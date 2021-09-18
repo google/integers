@@ -712,16 +712,12 @@ class trapping {
   /// ### `operator<`
   ///
   /// Returns true if `lhs` is less than `rhs`.
-  friend bool operator<(Self lhs, Self rhs) {
-    return lhs.value_ < rhs.value_;
-  }
+  friend bool operator<(Self lhs, Self rhs) { return lhs.value_ < rhs.value_; }
 
   /// ### `operator<`
   ///
   /// Returns true if `lhs` is less than `rhs`.
-  friend bool operator<(Self lhs, T rhs) {
-    return lhs.value_ < rhs;
-  }
+  friend bool operator<(Self lhs, T rhs) { return lhs.value_ < rhs; }
 
   /// ### `operator>`
   ///
@@ -736,9 +732,7 @@ class trapping {
   /// ### `operator<=`
   ///
   /// Returns true if `lhs` is less than or equal to `rhs`.
-  friend bool operator<=(Self lhs, Self rhs) {
-    return !(lhs > rhs);
-  }
+  friend bool operator<=(Self lhs, Self rhs) { return !(lhs > rhs); }
 
   /// ### `operator<=`
   ///
@@ -748,9 +742,7 @@ class trapping {
   /// ### `operator>=`
   ///
   /// Returns true if `lhs` is greater than or equal to `rhs`.
-  friend bool operator>=(Self lhs, Self rhs) {
-    return !(rhs > lhs);
-  }
+  friend bool operator>=(Self lhs, Self rhs) { return !(rhs > lhs); }
 
   /// ### `operator>=`
   ///
@@ -767,23 +759,17 @@ class trapping {
   /// ### `operator==`
   ///
   /// Returns true if `lhs` is equal to `rhs`.
-  friend bool operator==(Self lhs, T rhs) {
-    return lhs.value_ == rhs;
-  }
+  friend bool operator==(Self lhs, T rhs) { return lhs.value_ == rhs; }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(Self lhs, Self rhs) {
-    return !(lhs == rhs);
-  }
+  friend bool operator!=(Self lhs, Self rhs) { return !(lhs == rhs); }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(Self lhs, T rhs) {
-    return !(lhs == rhs);
-  }
+  friend bool operator!=(Self lhs, T rhs) { return !(lhs == rhs); }
 
   /// ### `operator++`
   ///
