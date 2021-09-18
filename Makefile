@@ -12,7 +12,7 @@ test: trapping_test wrapping_test clamping_test ranged_test
 	./ranged_test
 
 trapping_test: trapping_test.cc trapping.h expectations.h expectations.o
-	$(CXX) $(CXXFLAGS) -Wno-old-style-cast trapping_test.cc expectations.o -o trapping_test 2> err
+	$(CXX) $(CXXFLAGS) trapping_test.cc expectations.o -o trapping_test 2> err
 
 wrapping_test: wrapping_test.cc wrapping.h expectations.h expectations.o
 	$(CXX) $(CXXFLAGS) wrapping_test.cc expectations.o -o wrapping_test 2> err
