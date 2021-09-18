@@ -192,7 +192,43 @@ void TestAddOverflow() {
 }
 
 void TestSubOverflow() {
-  // TODO
+  {
+    i32 result;
+    EXPECT((sub_overflow<i32, i32, i32>(i32_min, 1, &result)));
+  }
+  {
+    i16 result;
+    EXPECT((sub_overflow<i32, i32, i16>(i32_min, 0, &result)));
+    EXPECT((sub_overflow<i16, i16, i16>(i16_min, 1, &result)));
+  }
+  {
+    u32 result;
+    EXPECT((sub_overflow<u32, u32, u32>(u32_min, 1, &result)));
+  }
+  {
+    u16 result;
+    // BUG: `*_overflow` must also call `cast_truncate`.
+    //EXPECT((sub_overflow<u32, u32, u16>(u32_min, 0, &result)));
+    EXPECT((sub_overflow<u16, u16, u16>(u16_min, 1, &result)));
+  }
+  {
+    i8 result;
+    EXPECT((sub_overflow<i16, i16, i8>(i16_min, 0, &result)));
+  }
+  {
+    // BUG: `*_overflow` must also call `cast_truncate`.
+    //u8 result;
+    //EXPECT((sub_overflow<u16, u16, u8>(u16_min, 0, &result)));
+  }
+
+  {
+    const i64 expected = trapping_cast<u32, i64>(u32_min) - 1;
+    i64 result;
+    EXPECT(!(sub_overflow<u32, u32, i64>(u32_min, 1, &result)));
+    EXPECT(expected == result);
+    EXPECT(!(sub_overflow<u32, u16, i64>(u32_min, 1, &result)));
+    EXPECT(expected == result);
+  }
 }
 
 void TestMulOverflow() {
