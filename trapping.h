@@ -214,6 +214,8 @@ bool add_overflow(T x, U y, R* result) {
 /// Subtracts `y` from `x` and stores the result in `result` (which can be a
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
+///
+/// Note: Subtracting 0 does **not** return true. (See `cast_truncate`.)
 template <typename T, typename U, typename R>
 bool sub_overflow(T x, U y, R* result) {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");

@@ -160,6 +160,8 @@ void TestAddOverflow() {
   }
   {
     i16 result;
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestSubOverflow`). Why?
     EXPECT((add_overflow<i32, i32, i16>(i32_max, 0, &result)));
     EXPECT((add_overflow<i16, i16, i16>(i16_max, 1, &result)));
   }
@@ -169,6 +171,8 @@ void TestAddOverflow() {
   }
   {
     u16 result;
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestSubOverflow`). Why?
     EXPECT((add_overflow<u32, u32, u16>(u32_max, 0, &result)));
     EXPECT((add_overflow<u16, u16, u16>(u16_max, 1, &result)));
   }
@@ -178,6 +182,8 @@ void TestAddOverflow() {
   }
   {
     u8 result;
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestSubOverflow`). Why?
     EXPECT((add_overflow<u16, u16, u8>(u16_max, 0, &result)));
   }
 
@@ -207,16 +213,20 @@ void TestSubOverflow() {
   }
   {
     u16 result;
-    // BUG: `*_overflow` must also call `cast_truncate`.
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestAddOverflow`). Why?
     //EXPECT((sub_overflow<u32, u32, u16>(u32_min, 0, &result)));
     EXPECT((sub_overflow<u16, u16, u16>(u16_min, 1, &result)));
   }
   {
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestAddOverflow`). But in this case subtracting 0 does return true. Why?
     i8 result;
     EXPECT((sub_overflow<i16, i16, i8>(i16_min, 0, &result)));
   }
   {
-    // BUG: `*_overflow` must also call `cast_truncate`.
+    // BUG?: Adding 0 returns true, but substracting 0 does not (see
+    // `TestAddOverflow`). Why?
     //u8 result;
     //EXPECT((sub_overflow<u16, u16, u8>(u16_min, 0, &result)));
   }
