@@ -389,7 +389,19 @@ void TestTrappingOperatorMod() {
   // TODO
 }
 
-void TestTrappingLeftShift() {
+void TestTrappingOperatorOr() {
+  // TODO
+}
+
+void TestTrappingOperatorAnd() {
+  // TODO
+}
+
+void TestTrappingOperatorXor() {
+  // TODO
+}
+
+void TestTrappingOperatorLeftShift() {
   {
     trapping<i32> x = 1;
     x <<= 1;
@@ -399,6 +411,51 @@ void TestTrappingLeftShift() {
     trapping<i32> x = 1;
     EXPECT_DEATH(x <<= 31);
   }
+}
+
+void TestTrappingOperatorRightShift() {
+  // TODO
+}
+
+void TestTrappingOperatorLessThan() {
+  // TODO
+}
+
+void TestTrappingOperatorGreaterThan() {
+  // TODO
+}
+
+void TestTrappingOperatorLessThanOrEqual() {
+  // TODO
+}
+
+void TestTrappingOperatorGreaterThanOrEqual() {
+  // TODO
+}
+
+void TestTrappingOperatorEqual() {
+  // TODO
+}
+
+void TestTrappingOperatorNotEqual() {
+  // TODO
+}
+
+
+void TestTrappingOperatorIncrement() {
+  // TODO
+}
+
+void TestTrappingOperatorDecrement() {
+  // TODO
+}
+
+void TestOperatorT() {
+  // TODO
+}
+
+void TestOperatorU() {
+  // TODO
 }
 
 void TestMultiOperatorOverflow() {
@@ -445,7 +502,25 @@ int main() {
   TestTrappingOperatorDiv();
   TestTrappingOperatorMod();
 
-  TestTrappingLeftShift();
+  TestTrappingOperatorOr();
+  TestTrappingOperatorAnd();
+  TestTrappingOperatorXor();
+
+  TestTrappingOperatorRightShift();
+  TestTrappingOperatorLeftShift();
+
+  TestTrappingOperatorLessThan();
+  TestTrappingOperatorGreaterThan();
+  TestTrappingOperatorLessThanOrEqual();
+  TestTrappingOperatorGreaterThanOrEqual();
+  TestTrappingOperatorEqual();
+  TestTrappingOperatorNotEqual();
+
+  TestTrappingOperatorIncrement();
+  TestTrappingOperatorDecrement();
+
+  TestOperatorT();
+  TestOperatorU();
 
   TestMultiOperatorOverflow();
 
