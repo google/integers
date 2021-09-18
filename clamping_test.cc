@@ -21,14 +21,4 @@
 using namespace integers;
 using namespace std;
 
-namespace {
-
-bool failure = false;
-
-}  // namespace
-
-int main() {
-  if (failure) {
-    cerr << "Welp, some `EXPECT_DEATH` tests failed. Dang!\n";
-  }
-}
+int main() {}

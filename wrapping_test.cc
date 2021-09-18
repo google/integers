@@ -21,15 +21,4 @@
 using namespace integers;
 using namespace std;
 
-namespace {
-
-// TODO: Remove this from *_test.cc and put it in expectations.{cc,h}?
-bool failure = false;
-
-}  // namespace
-
-int main() {
-  if (failure) {
-    cerr << "Welp, some `EXPECT_DEATH` tests failed. Dang!\n";
-  }
-}
+int main() {}

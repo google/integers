@@ -92,7 +92,7 @@ void PrintBacktrace();
         std::cerr << "FAILURE: Child exited normally. Boo!! " << __FILE__ \
                   << ":" << __LINE__ << "\n";                             \
         ::integers::PrintBacktrace();                                     \
-        failure = true;                                                   \
+        _exit(1);                                                         \
       }                                                                   \
       if (r != pid) {                                                     \
         err(errno, "Waitpid got a bad answer");                           \
