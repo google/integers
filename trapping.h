@@ -664,17 +664,11 @@ class trapping {
   /// Returns the plain `T` value of `*this`.
   operator T() const { return value_; }
 
-  // ### `operator U`
+  /// ### `operator U`
+  ///
+  /// Using `trapping_cast<T, U>`, casts `T` to `U`.
   //
-  // Using `trapping_cast<T, U>`, casts `T` to `U`.
-  //
-  // TODO.
-  //
-  // Ideally, we'd be able to require that all conversions always go through
-  // `trapping_cast<T, U>` — no implicit conversions. But, this seems to never
-  // be called.
-  //
-  // TODO NOTE: With C++20, we can implement `operator U` as:
+  // NOTE: With C++20, we could implement `operator U` as:
   //
   //   template <typename U>
   //   require (!std::same_as<T, U>)

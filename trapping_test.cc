@@ -831,7 +831,26 @@ void TestOperatorT() {
 }
 
 void TestOperatorU() {
-  // TODO
+  {
+    trapping<i32> x = 42;
+    i16 y = static_cast<i16>(x);
+    EXPECT(y == 42);
+  }
+  {
+    trapping<i32> x = i32_max;
+    auto y = static_cast<u32>(x);
+    EXPECT(y == i32_max);
+  }
+  {
+    trapping<i64> x = i64_max;
+    auto y = static_cast<u64>(x);
+    EXPECT(y == i64_max);
+  }
+  {
+    trapping<i64> x = i64_max;
+    i32 y;
+    EXPECT_DEATH(y = x);
+  }
 }
 
 void TestMultiOperatorOverflow() {
