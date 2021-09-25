@@ -282,6 +282,7 @@ bool div_overflow(T dividend, U divisor, R* result) {
 /// Thanks, chux!
 template <typename T, typename U, typename R>
 bool mod_overflow(T dividend, U divisor, R* result) {
+  // TODO: Just `return div_overflow(...)`.
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
   static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
@@ -380,7 +381,6 @@ R trapping_div(T dividend, U divisor) {
   if (div_overflow(dividend, divisor, &result)) {
     trap();
   }
-
   return result;
 }
 
