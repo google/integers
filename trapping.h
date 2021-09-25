@@ -26,11 +26,25 @@
 
 namespace {
 
-// Returns true if `divisor` is signed, is -1, and if `dividend` is the minimum
-// value for its type. Such division is UB, so must be avoided. This function is
-// used in `div_overflow` and `mod_overflow`.
+/// Returns true if `divisor` is 0. Returns true if `divisor` is signed, is -1,
+/// and if `dividend` is the minimum value for its type. Such division is UB, so
+/// must be avoided. This function is used in `div_overflow` and `mod_overflow`.
+//
+// Adapted from
+// https://stackoverflow.com/questions/30394086/integer-division-overflows.
+// Thanks, chux!
 template <typename T, typename U>
-bool divide_min_by_negative_1(T dividend, U divisor) {
+bool check_bad_division(T dividend, U divisor) {
+  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
+
+  if (divisor == 0) {
+    return true;
+  }
+
+  // `std::numeric_limits<T>::min() / -1` can/does generate a floating-point
+  // exception.
+  //
   // As of C++17, we can assume 2’s complement. (See section 6.8.1 of
   // https://isocpp.org/files/papers/N4860.pdf.)
   return std::is_signed_v<U> && dividend == std::numeric_limits<T>::min() &&
@@ -250,22 +264,10 @@ bool mul_overflow(T x, U y, R* result) {
 /// Divides `dividend` by `divisor` and stores the quotient in `result` (which
 /// can be a pointer to `dividend`, `divisor`, or another object). Returns true
 /// if the operation overflowed.
-///
-/// Adapted from
-/// https://stackoverflow.com/questions/30394086/integer-division-overflows.
-/// Thanks, chux!
 template <typename T, typename U, typename R>
 bool div_overflow(T dividend, U divisor, R* result) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
-
-  if (divisor == 0) {
-    return true;
-  }
-  if (divide_min_by_negative_1<T, U>(dividend, divisor)) {
-    // Instead of generating a floating-point exception, as
-    // `std::numeric_limits<T>::min() / -1` can/does.
+  if (check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
   return cast_truncate(dividend / divisor, result);
@@ -276,23 +278,10 @@ bool div_overflow(T dividend, U divisor, R* result) {
 /// Divides `dividend` by `divisor` and stores the remainder in `result` (which
 /// can be a pointer to `dividend`, `divisor`, or another object). Returns true
 /// if the operation overflowed.
-///
-/// Adapted from
-/// https://stackoverflow.com/questions/30394086/integer-division-overflows.
-/// Thanks, chux!
 template <typename T, typename U, typename R>
 bool mod_overflow(T dividend, U divisor, R* result) {
-  // TODO: Just `return div_overflow(...)`.
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
-
-  if (divisor == 0) {
-    return true;
-  }
-  if (divide_min_by_negative_1<T, U>(dividend, divisor)) {
-    // Instead of generating a floating-point exception, as
-    // `std::numeric_limits<T>::min() / -1` can/does.
+  if (check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
   return cast_truncate(dividend % divisor, result);
