@@ -716,8 +716,54 @@ void TestOperatorDiv() {
   CallMinDiv1<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
+template <typename T>
+void MaxMod1() {
+  constexpr T max = numeric_limits<T>::max();
+  {
+    trapping<T> x = max;
+    EXPECT((x %= 1) == static_cast<T>(max % 1));
+  }
+  {
+    trapping<T> x = max;
+    EXPECT((x %= 2) == static_cast<T>(max % 2));
+  }
+  {
+    if constexpr (is_signed_v<T>) {
+      trapping<T> x = max;
+      const T expected = max % -1;
+      const trapping<T> result = x %= -1;
+      EXPECT(result == expected);
+    }
+  }
+}
+
+template <class... T>
+void CallMaxMod1() {
+  (MaxMod1<T>(), ...);
+}
+
+template <typename T>
+void MinMod1() {
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    EXPECT((x %= 2) == static_cast<T>(numeric_limits<T>::min() % 2));
+  }
+  {
+    if constexpr (is_signed_v<T>) {
+      trapping<T> x = numeric_limits<T>::min();
+      EXPECT_DEATH((x %= -1));
+    }
+  }
+}
+
+template <class... T>
+void CallMinMod1() {
+  (MinMod1<T>(), ...);
+}
+
 void TestOperatorMod() {
-  // TODO
+  CallMaxMod1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallMinMod1<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 void TestOperatorOr() {
