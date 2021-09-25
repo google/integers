@@ -409,16 +409,6 @@ class trapping {
   using Self = trapping<T>;
 
  public:
-  // We comment this version out, because it breaks `std::is_trivial`, which we
-  // want for good code generation. TODO: However, we might be able to assert
-  // just `is_trivially_copyable` and get the defined behavior in the
-  // constructor, and good enough code generation.
-  //
-  // ### `trapping`
-  //
-  // Constructs and initializes `value_` to 0.
-  // trapping() : value_(0) {}
-
   /// ### `trapping`
   ///
   /// The default constructor. The contents of the object are undefined. 😕
