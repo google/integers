@@ -315,7 +315,7 @@ void TestDivOverflow() {
     EXPECT((div_overflow<i16, i16, i8>(i16_max, 0, &result)));
     EXPECT((div_overflow<i16, i16, i8>(i16_max, 1, &result)));
     EXPECT((div_overflow<i16, i16, i8>(i16_max, 2, &result)));
-    EXPECT(!(div_overflow<i16, i16, i8>(i16_max, -1, &result)));
+    EXPECT((div_overflow<i16, i16, i8>(i16_max, -1, &result)));
   }
   {
     u8 result;

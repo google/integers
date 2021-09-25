@@ -21,7 +21,9 @@
 #include <algorithm>
 #include <limits>
 #include <type_traits>
+#include <utility>
 
+#include "in_range.h"
 #include "trap.h"
 
 namespace {
@@ -86,106 +88,13 @@ namespace integers {
 /// Converts `T`s to `R`s, and returns true if `R` cannot hold the full `value`.
 /// (This can happen on some narrowing conversions, and if `value` is signed and
 /// < 0 and `R` is unsigned.)
-//
-// NOTE TODO: When/if we can require callers to use C++20, `std::in_range` and
-// `std::cmp_*` could be useful here, e.g.:
-//
-// template <typename T, typename R>
-// constexpr bool cast_truncate(T value, R* result) {
-//   if (std::in_range<R>(value)) {
-//     *result = static_cast<R>(value);
-//     return false;
-//   }
-//   return true;
-// }
 template <typename T, typename R>
-bool cast_truncate(T value, R* result) {
-  // Yes, this implementation looks like A Lot, but most of it is `constexpr`
-  // and should be resolved at compile time.
-
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
-
-  constexpr bool T_signed = std::is_signed_v<T>;
-  constexpr bool R_signed = std::is_signed_v<R>;
-  constexpr size_t T_size = sizeof(T);
-  constexpr size_t R_size = sizeof(R);
-
-#define STATIC_CAST_AND_RETURN     \
-  *result = static_cast<R>(value); \
-  return false
-
-  // In an earlier version of this function, I tried to be smort and handled
-  // some special easy cases early. It did not work (ended up hitting the
-  // `NOTREACHED` at the bottom). So, let's just be maximally clear and handle
-  // all possible cases with this brute-force if/else if/else tree. All branches
-  // except for the correct one for the call site's `T` and `R`, including the
-  // `NOTREACHED`s, should be optimized away.
-
-  if constexpr (T_signed && R_signed) {
-    if (T_size == R_size) {
-      // std::is_same_v<T, R>
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size > R_size) {
-      if (value > std::numeric_limits<R>::max()) {
-        return true;
-      }
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size < R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else {
-      NOTREACHED();
-    }
-  } else if constexpr (!T_signed && !R_signed) {
-    if (T_size == R_size) {
-      // std::is_same_v<T, R>
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size > R_size) {
-      if (value > std::numeric_limits<R>::max()) {
-        return true;
-      }
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size < R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else {
-      NOTREACHED();
-    }
-  } else if constexpr (T_signed && !R_signed) {
-    if (value < 0) {
-      return true;
-    }
-    if constexpr (T_size == R_size) {
-      // This is safe because at this point, we know `value >= 0` and that `R`,
-      // which is unsigned, can hold any possible value of `value`.
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size > R_size) {
-      using U = typename std::make_unsigned<T>::type;
-      U unsigned_value = static_cast<U>(value);
-      if (unsigned_value > std::numeric_limits<R>::max()) {
-        return true;
-      }
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size < R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else {
-      NOTREACHED();
-    }
-  } else if constexpr (!T_signed && R_signed) {
-    if (value > std::numeric_limits<R>::max()) {
-      return true;
-    }
-    if constexpr (T_size == R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size > R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else if constexpr (T_size < R_size) {
-      STATIC_CAST_AND_RETURN;
-    } else {
-      NOTREACHED();
-    }
+constexpr bool cast_truncate(T value, R* result) {
+  if (std::in_range<R>(value)) {
+    *result = static_cast<R>(value);
+    return false;
   }
-
-#undef STATIC_CAST_AND_RETURN
+  return true;
 }
 
 // NOTE: For `*_overflow`, `Result<R> { R, bool }` instead of returning `bool`
