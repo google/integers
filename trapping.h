@@ -330,48 +330,6 @@ class trapping {
   /// Constructs and initializes `value_` to `value`.
   trapping(T value) : value_(value) {}
 
-  // If we un-comment these `operator=`s, `std::is_trivial` will no longer be
-  // true. We really want for it to be true, because clang++ generates
-  // significantly better code when it is true. However, even with them
-  // commented out, we can still do
-  //
-  //   trapping<int> x{42};
-  //   trapping<int> y = x;
-  //
-  // because the compiler generates the code necessary — and that does not break
-  // `is_trivial`. So, it would seem the best thing to do is to let the compiler
-  // do that, rather than manuall define these.
-
-  // ### `operator=`
-  //
-  // Copy assignment.
-  // Self& operator=(Self other) {
-  //   if (this == &other) {
-  //     return *this;
-  //   }
-  //   value_ = other.value_;
-  //   return *this;
-  // }
-
-  // ### `operator=`
-  //
-  // Move assignment. Does not modify `other`.
-  // Self& operator=(Self&& other) noexcept {
-  //   if (this == &other) {
-  //     return *this;
-  //   }
-  //   value_ = other.value_;
-  //   return *this;
-  // }
-
-  // ### `operator=`
-  //
-  // Copy assignment (copy-and-swap idiom). `other` will be destructed.
-  // Self& operator=(Self other) noexcept {
-  //   std::swap(value_, other.value_);
-  //   return *this;
-  // }
-
   // TODO: This might not be the right way to go about it and/or possible, but
   // we need some way to ensure that assigning a `U` to `this` incurs a
   // `trapping_cast` check. By whatever means is appropriate.
