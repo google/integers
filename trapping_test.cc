@@ -694,8 +694,16 @@ void CallMaxDiv1() {
 
 template <typename T>
 void MinDiv1() {
-  trapping<T> x = numeric_limits<T>::min();
-  EXPECT((x /= 2) == static_cast<T>(numeric_limits<T>::min() / 2));
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    EXPECT((x /= 2) == static_cast<T>(numeric_limits<T>::min() / 2));
+  }
+  {
+    if constexpr (is_signed_v<T>) {
+      trapping<T> x = numeric_limits<T>::min();
+      EXPECT_DEATH((x /= -1));
+    }
+  }
 }
 
 template <class... T>
