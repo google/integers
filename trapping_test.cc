@@ -622,6 +622,10 @@ void GenericTestOperatorSub() {
     // TODO: Parameterize this. Or get rid of it.
     // EXPECT(x == 0xFFFFFFFE);
   }
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    EXPECT_DEATH(x -= T{1});
+  }
 }
 
 template <class... T>
@@ -631,12 +635,6 @@ void CallGenericTestOperatorSub() {
 
 void TestOperatorSub() {
   CallGenericTestOperatorSub<i8, u8, i16, u16, i32, u32, i64, u64>();
-
-  {
-    // TODO BUG: Figure this out. "call to implicitly deleted copy constructor".
-    // trapping<u16> x = u16_min;
-    // EXPECT_DEATH(x = x - u16{1});
-  }
 }
 
 template <typename T>
