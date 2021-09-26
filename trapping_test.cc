@@ -608,35 +608,29 @@ void TestOperatorAdd() {
 }
 
 template <typename T>
-void MinSub1() {
-  trapping<T> x = numeric_limits<T>::min();
-  EXPECT_DEATH(x -= 1);
+void GenericTestOperatorSub() {
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    EXPECT_DEATH(x -= 1);
+  }
+  {
+    trapping<T> x = numeric_limits<T>::max();
+    x -= 1;
+    // TODO: Consider implementing overrides such that the explicit cast/ctor here
+    // is not necessary.
+    EXPECT(x == T{numeric_limits<T>::max() - 1});
+    // TODO: Parameterize this. Or get rid of it.
+    // EXPECT(x == 0xFFFFFFFE);
+  }
 }
 
 template <class... T>
-void CallMinSub1() {
-  (MinSub1<T>(), ...);
-}
-
-template <typename T>
-void MaxSub1() {
-  trapping<T> x = numeric_limits<T>::max();
-  x -= 1;
-  // TODO: Consider implementing overrides such that the explicit cast/ctor here
-  // is not necessary.
-  EXPECT(x == T{numeric_limits<T>::max() - 1});
-  // TODO: Parameterize this. Or get rid of it.
-  // EXPECT(x == 0xFFFFFFFE);
-}
-
-template <class... T>
-void CallMaxSub1() {
-  (MaxSub1<T>(), ...);
+void CallGenericTestOperatorSub() {
+  (GenericTestOperatorSub<T>(), ...);
 }
 
 void TestOperatorSub() {
-  CallMaxSub1<i8, u8, i16, u16, i32, u32, i64, u64>();
-  CallMinSub1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorSub<i8, u8, i16, u16, i32, u32, i64, u64>();
 
   {
     // TODO BUG: Figure this out. "call to implicitly deleted copy constructor".
