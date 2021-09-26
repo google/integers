@@ -230,15 +230,25 @@ void TestSubOverflow() {
   }
 }
 
+template <typename T>
+void GenericTestMulOverflow() {
+  T result;
+  EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::min(), 0, &result)));
+  EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::max(), 0, &result)));
+  EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::min(), 1, &result)));
+  EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::max(), 1, &result)));
+  EXPECT(is_signed_v<T> == (mul_overflow<T, T, T>(numeric_limits<T>::min(), 2, &result)));
+  EXPECT((mul_overflow<T, T, T>(numeric_limits<T>::max(), 2, &result)));
+}
+
+template <class... T>
+void CallGenericTestMulOverflow() {
+  (GenericTestMulOverflow<T>(), ...);
+}
+
 void TestMulOverflow() {
-  // TODO: Should generate this form of test for all types, using the Meredith
-  // construction.
-  {
-    i32 result;
-    EXPECT(!(mul_overflow<i32, i32, i32>(i32_max, 0, &result)));
-    EXPECT(!(mul_overflow<i32, i32, i32>(i32_max, 1, &result)));
-    EXPECT((mul_overflow<i32, i32, i32>(i32_min, 2, &result)));
-  }
+  CallGenericTestMulOverflow<i8, u8, i16, u16, i32, u32, i64, u64>();
+
   {
     i16 result;
     EXPECT(!(mul_overflow<i32, i32, i16>(i32_max, 0, &result)));
@@ -501,7 +511,7 @@ void TestConstructorT() {
   { EXPECT(trapping<int>(42) == 42); }
 
   {
-    trapping<i8> x = 42;
+    trapping<i8> x{42};
     EXPECT_DEATH(x = trapping<i8>(512));
     EXPECT_DEATH(((void)trapping<i8>(512)));
     EXPECT_DEATH(((void)trapping<i8>(u8_max)));
