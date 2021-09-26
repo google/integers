@@ -703,7 +703,7 @@ void TestOperatorDiv() {
 }
 
 template <typename T>
-void MaxMod1() {
+void GenericTestOperatorMod() {
   constexpr T max = numeric_limits<T>::max();
   {
     trapping<T> x = max;
@@ -721,15 +721,6 @@ void MaxMod1() {
       EXPECT(result == expected);
     }
   }
-}
-
-template <class... T>
-void CallMaxMod1() {
-  (MaxMod1<T>(), ...);
-}
-
-template <typename T>
-void MinMod1() {
   {
     trapping<T> x = numeric_limits<T>::min();
     EXPECT((x %= 2) == static_cast<T>(numeric_limits<T>::min() % 2));
@@ -743,13 +734,12 @@ void MinMod1() {
 }
 
 template <class... T>
-void CallMinMod1() {
-  (MinMod1<T>(), ...);
+void CallGenericTestOperatorMod() {
+  (GenericTestOperatorMod<T>(), ...);
 }
 
 void TestOperatorMod() {
-  CallMaxMod1<i8, u8, i16, u16, i32, u32, i64, u64>();
-  CallMinMod1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorMod<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 void TestOperatorOr() {
