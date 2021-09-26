@@ -327,13 +327,15 @@ class trapping {
 
   /// ### `trapping`
   ///
-  /// Constructs and initializes `value_` to `value`.
-  trapping(T value) : value_(value) {}
+  /// Constructs and initializes.
+  template <typename U, std::enable_if_t<std::is_same_v<T, U>, int> = 0>
+  trapping(U value) : value_(value) {}
 
-  // TODO: This might not be the right way to go about it and/or possible, but
-  // we need some way to ensure that assigning a `U` to `this` incurs a
-  // `trapping_cast` check. By whatever means is appropriate.
-  // Self& operator=(U other) noexcept { }
+  /// ### `trapping`
+  ///
+  /// Constructs and initializes. Traps if `T` cannot represent `value`.
+  template <typename U, std::enable_if_t<!std::is_same_v<T, U>, int> = 0>
+  explicit trapping(U value) : value_(trapping_cast<U, T>(value)) {}
 
   /// ### `operator+=`
   ///
@@ -659,21 +661,11 @@ class trapping {
     return previous;
   }
 
-  /// ### `operator T`
-  ///
-  /// Returns the plain `T` value of `*this`.
-  operator T() const { return value_; }
-
   /// ### `operator U`
   ///
-  /// Using `trapping_cast<T, U>`, casts `T` to `U`.
-  //
-  // NOTE: With C++20, we could implement `operator U` as:
-  //
-  //   template <typename U>
-  //   require (!std::same_as<T, U>)
-  //   operator U() const { ... }
-  template <typename U, typename = std::enable_if<!std::is_same_v<T, U>>>
+  /// Returns the plain `T` value as a `U`. Traps if the value cannot be
+  /// represented as a `U`.
+  template <typename U>
   operator U() const {
     return trapping_cast<T, U>(value_);
   }

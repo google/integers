@@ -856,7 +856,7 @@ void TestOperatorU() {
 void TestMultiOperatorOverflow() {
   // TODO: Parameterize this for u8, u16, u32.
   {
-    trapping<u16> x = i16_max;
+    auto x = trapping<u16>(i16_max);
     // I.e. we expect headroom in a u16 above the *signed* 16-bit max:
     x *= 2;
     EXPECT(x == static_cast<u16>(0xFFFE));
