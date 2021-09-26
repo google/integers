@@ -499,10 +499,16 @@ void TestConstructorT() {
     EXPECT(x == 42);
   }
   { EXPECT(trapping<int>(42) == 42); }
-  { EXPECT(trapping<int>{42} == 42); }
 
-  // TODO: Implement `trapping(U value)` that traps if `value` is not
-  // representable in `T`.
+  {
+    trapping<i8> x = 42;
+    EXPECT_DEATH(x = trapping<i8>(512));
+    EXPECT_DEATH(((void)trapping<i8>(512)));
+    EXPECT_DEATH(((void)trapping<i8>(u8_max)));
+    EXPECT_DEATH(((void)trapping<i16>(u16_max)));
+    EXPECT_DEATH(((void)trapping<i32>(u32_max)));
+    EXPECT_DEATH(((void)trapping<i64>(u64_max)));
+  }
 }
 
 void TestCast() {
