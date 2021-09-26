@@ -866,6 +866,11 @@ void TestMultiOperatorOverflow() {
   }
 }
 
+void TestOstream() {
+  auto x = trapping<i32>(42);
+  std::cout << "Testing `operator<<`: " << x << "\n";
+}
+
 }  // namespace
 
 int main() {
@@ -917,4 +922,6 @@ int main() {
   TestOperatorU();
 
   TestMultiOperatorOverflow();
+
+  TestOstream();
 }

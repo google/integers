@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <ostream>
 #include <type_traits>
 #include <utility>
 
@@ -668,6 +669,11 @@ class trapping {
   template <typename U>
   operator U() const {
     return trapping_cast<T, U>(value_);
+  }
+
+  friend std::ostream& operator<<(std::ostream& os, Self self) {
+    os << self.value_;
+    return os;
   }
 
  private:
