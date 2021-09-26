@@ -663,7 +663,7 @@ void TestOperatorMul() {
 }
 
 template <typename T>
-void MaxDiv1() {
+void GenericTestOperatorDiv() {
   constexpr T max = numeric_limits<T>::max();
   {
     trapping<T> x = max;
@@ -681,15 +681,6 @@ void MaxDiv1() {
       EXPECT(result == expected);
     }
   }
-}
-
-template <class... T>
-void CallMaxDiv1() {
-  (MaxDiv1<T>(), ...);
-}
-
-template <typename T>
-void MinDiv1() {
   {
     trapping<T> x = numeric_limits<T>::min();
     EXPECT((x /= 2) == static_cast<T>(numeric_limits<T>::min() / 2));
@@ -703,13 +694,12 @@ void MinDiv1() {
 }
 
 template <class... T>
-void CallMinDiv1() {
-  (MinDiv1<T>(), ...);
+void CallGenericTestOperatorDiv() {
+  (GenericTestOperatorDiv<T>(), ...);
 }
 
 void TestOperatorDiv() {
-  CallMaxDiv1<i8, u8, i16, u16, i32, u32, i64, u64>();
-  CallMinDiv1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorDiv<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 template <typename T>
