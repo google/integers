@@ -638,34 +638,28 @@ void TestOperatorSub() {
 }
 
 template <typename T>
-void MaxMul1() {
-  trapping<T> x = numeric_limits<T>::max();
-  EXPECT_DEATH(x *= 2);
-}
-
-template <class... T>
-void CallMaxMul1() {
-  (MaxMul1<T>(), ...);
-}
-
-template <typename T>
-void MinMul1() {
-  trapping<T> x = numeric_limits<T>::min();
-  if constexpr (is_signed_v<T>) {
+void GenericTestOperatorMul() {
+  {
+    trapping<T> x = numeric_limits<T>::max();
     EXPECT_DEATH(x *= 2);
-  } else {
-    EXPECT((x *= 2) == static_cast<T>(0));
+  }
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    if constexpr (is_signed_v<T>) {
+      EXPECT_DEATH(x *= 2);
+    } else {
+      EXPECT((x *= 2) == static_cast<T>(0));
+    }
   }
 }
 
 template <class... T>
-void CallMinMul1() {
-  (MinMul1<T>(), ...);
+void CallGenericTestOperatorMul() {
+  (GenericTestOperatorMul<T>(), ...);
 }
 
 void TestOperatorMul() {
-  CallMaxMul1<i8, u8, i16, u16, i32, u32, i64, u64>();
-  CallMinMul1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorMul<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 template <typename T>
