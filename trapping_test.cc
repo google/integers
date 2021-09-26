@@ -584,33 +584,27 @@ void TestCast() {
 }
 
 template <typename T>
-void MaxAdd1() {
-  trapping<T> x = numeric_limits<T>::max();
-  EXPECT_DEATH(x += 1);
+void GenericTestOperatorAdd() {
+  {
+    trapping<T> x = numeric_limits<T>::max();
+    EXPECT_DEATH(x += 1);
+  }
+  {
+    trapping<T> x = numeric_limits<T>::min();
+    x += 1;
+    // TODO: Consider implementing overrides such that the explicit cast/ctor here
+    // is not necessary.
+    EXPECT(x == T{numeric_limits<T>::min() + 1});
+  }
 }
 
 template <class... T>
-void CallMaxAdd1() {
-  (MaxAdd1<T>(), ...);
-}
-
-template <typename T>
-void MinAdd1() {
-  trapping<T> x = numeric_limits<T>::min();
-  x += 1;
-  // TODO: Consider implementing overrides such that the explicit cast/ctor here
-  // is not necessary.
-  EXPECT(x == T{numeric_limits<T>::min() + 1});
-}
-
-template <class... T>
-void CallMinAdd1() {
-  (MinAdd1<T>(), ...);
+void CallGenericTestOperatorAdd() {
+  (GenericTestOperatorAdd<T>(), ...);
 }
 
 void TestOperatorAdd() {
-  CallMaxAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
-  CallMinAdd1<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorAdd<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 template <typename T>
