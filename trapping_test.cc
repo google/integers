@@ -343,30 +343,30 @@ void TestDivOverflow() {
   }
 }
 
+template <typename T>
+void GenericTestModOverflow() {
+  {
+    T result;
+    constexpr T max = numeric_limits<T>::max();
+    constexpr T min = numeric_limits<T>::min();
+    EXPECT((mod_overflow<T, T, T>(max, 0, &result)));
+    EXPECT(!(mod_overflow<T, T, T>(max, 1, &result)));
+    EXPECT(!(mod_overflow<T, T, T>(min, 2, &result)));
+    if constexpr (is_signed_v<T>) {
+      EXPECT((mod_overflow<T, T, T>(min, -1, &result)));
+    }
+    EXPECT(!(mod_overflow<T, T, T>(max, max, &result)));
+  }
+}
+
+template <class... T>
+void CallGenericTestModOverflow() {
+  (GenericTestModOverflow<T>(), ...);
+}
+
 void TestModOverflow() {
-  // TODO: Should generate this form of test for all types, using the Meredith
-  // construction.
-  {
-    i32 result;
-    EXPECT((mod_overflow<i32, i32, i32>(i32_max, 0, &result)));
-    EXPECT(!(mod_overflow<i32, i32, i32>(i32_max, 1, &result)));
-    EXPECT(!(mod_overflow<i32, i32, i32>(i32_min, 2, &result)));
-    EXPECT((mod_overflow<i32, i32, i32>(i32_min, -1, &result)));
-  }
-  {
-    i16 result;
-    EXPECT((mod_overflow<i32, i32, i16>(i32_max, 0, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i16>(i16_max, 1, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i16>(i16_max, 2, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i16>(i16_max, -1, &result)));
-  }
-  {
-    u32 result;
-    EXPECT((mod_overflow<u32, u32, u32>(u32_max, 0, &result)));
-    EXPECT(!(mod_overflow<u32, u32, u32>(u32_max, 1, &result)));
-    EXPECT(!(mod_overflow<u32, u32, u32>(u32_max, 2, &result)));
-    EXPECT(!(mod_overflow<u32, u32, u32>(u32_max, u32_max, &result)));
-  }
+  CallGenericTestModOverflow<i8, u8, i16, u16, i32, u32, i64, u64>();
+
   {
     u16 result;
     EXPECT((mod_overflow<u32, u32, u16>(u32_max, 0, &result)));
