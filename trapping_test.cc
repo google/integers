@@ -770,20 +770,92 @@ void TestOperatorRightShift() {
   // TODO
 }
 
+template <typename T>
+void GenericTestOperatorLessThan() {
+  {
+    trapping<int> x = 42;
+    EXPECT((x < 100));
+    EXPECT((12 < x));
+    EXPECT(!(100 < x));
+    EXPECT(!(x < 12));
+  }
+}
+
+template <class... T>
+void CallGenericTestOperatorLessThan() {
+  (GenericTestOperatorLessThan<T>(), ...);
+}
+
 void TestOperatorLessThan() {
-  // TODO
+  CallGenericTestOperatorLessThan<i8, u8, i16, u16, i32, u32, i64, u64>();
+}
+
+template <typename T>
+void GenericTestOperatorGreaterThan() {
+  {
+    trapping<int> x = 42;
+    EXPECT((x > 12));
+    EXPECT((100 > x));
+    EXPECT(!(12 > x));
+    EXPECT(!(x > 100));
+  }
+}
+
+template <class... T>
+void CallGenericTestOperatorGreaterThan() {
+  (GenericTestOperatorGreaterThan<T>(), ...);
 }
 
 void TestOperatorGreaterThan() {
-  // TODO
+  CallGenericTestOperatorGreaterThan<i8, u8, i16, u16, i32, u32, i64, u64>();
+}
+
+template <typename T>
+void GenericTestOperatorLessThanOrEqual() {
+  {
+    trapping<int> x = 42;
+    EXPECT((x <= 100));
+    EXPECT((12 <= x));
+    EXPECT(!(100 <= x));
+    EXPECT(!(x <= 12));
+    EXPECT((x <= 42));
+    EXPECT((42 <= x));
+    EXPECT(!(x <= 12));
+    EXPECT(!(100 <= x));
+  }
+}
+
+template <class... T>
+void CallGenericTestOperatorLessThanOrEqual() {
+  (GenericTestOperatorLessThanOrEqual<T>(), ...);
 }
 
 void TestOperatorLessThanOrEqual() {
-  // TODO
+  CallGenericTestOperatorLessThanOrEqual<i8, u8, i16, u16, i32, u32, i64, u64>();
+}
+
+template <typename T>
+void GenericTestOperatorGreaterThanOrEqual() {
+  {
+    trapping<int> x = 42;
+    EXPECT((x >= 12));
+    EXPECT((100 >= x));
+    EXPECT(!(12 >= x));
+    EXPECT(!(x >= 100));
+    EXPECT((x >= 42));
+    EXPECT((42 >= x));
+    EXPECT(!(x >= 100));
+    EXPECT(!(12 >= x));
+  }
+}
+
+template <class... T>
+void CallGenericTestOperatorGreaterThanOrEqual() {
+  (GenericTestOperatorGreaterThanOrEqual<T>(), ...);
 }
 
 void TestOperatorGreaterThanOrEqual() {
-  // TODO
+  CallGenericTestOperatorGreaterThanOrEqual<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 void TestOperatorEqual() {
