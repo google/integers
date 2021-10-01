@@ -102,7 +102,7 @@ void TestAdd() {
   EXPECT_DEATH((trapping_add<u16, u16, u16>(u16_max, 1)));
   EXPECT_DEATH((trapping_add<u16, u16, u8>(u16_max, 0)));
 
-  const i64 expected = trapping_cast<u32, i64>(u32_max) + 1;
+  const i64 expected = trapping_cast<i64, u32>(u32_max) + 1;
   EXPECT(expected == (trapping_add<u32, u32, i64>(u32_max, 1)));
   EXPECT(expected == (trapping_add<u32, u16, i64>(u32_max, 1)));
 }
@@ -183,7 +183,7 @@ void TestAddOverflow() {
   }
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) + 1;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) + 1;
     i64 result;
     EXPECT(!(add_overflow<u32, u32, i64>(u32_max, 1, &result)));
     EXPECT(expected == result);
@@ -221,7 +221,7 @@ void TestSubOverflow() {
   }
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_min) - 1;
+    const i64 expected = trapping_cast<i64, u32>(u32_min) - 1;
     i64 result;
     EXPECT(!(sub_overflow<u32, u32, i64>(u32_min, 1, &result)));
     EXPECT(expected == result);
@@ -280,7 +280,7 @@ void TestMulOverflow() {
   }
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) * 1;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) * 1;
     i64 result;
     EXPECT(!(mul_overflow<u32, u32, i64>(u32_max, 1, &result)));
     EXPECT(expected == result);
@@ -334,7 +334,7 @@ void TestDivOverflow() {
   }
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) / 1;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) / 1;
     i64 result;
     EXPECT(!(div_overflow<u32, u32, i64>(u32_max, 1, &result)));
     EXPECT(expected == result);
@@ -388,7 +388,7 @@ void TestModOverflow() {
   }
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) % 1;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) % 1;
     i64 result;
     EXPECT(!(mod_overflow<u32, u32, i64>(u32_max, 1, &result)));
     EXPECT(expected == result);
@@ -407,7 +407,7 @@ void TestMul() {
   EXPECT_DEATH((trapping_mul<u16, u16, u16>(u16_max, 2)));
   EXPECT_DEATH((trapping_mul<u16, u16, u8>(u16_max, 1)));
 
-  const i64 expected = trapping_cast<u32, i64>(u32_max) * 2;
+  const i64 expected = trapping_cast<i64, u32>(u32_max) * 2;
   EXPECT(expected == (trapping_mul<u32, u32, i64>(u32_max, 2)));
   EXPECT(expected == (trapping_mul<u32, u16, i64>(u32_max, 2)));
 }
@@ -422,7 +422,7 @@ void TestSub() {
   EXPECT_DEATH((trapping_sub<u16, u16, u16>(u16_min, 1)));
   EXPECT_DEATH((trapping_sub<u16, u16, u8>(u16_min, 1)));
 
-  const i64 expected = trapping_cast<u32, i64>(u32_min) - 1;
+  const i64 expected = trapping_cast<i64, u32>(u32_min) - 1;
   EXPECT(expected == (trapping_sub<u32, u32, i64>(u32_min, 1)));
   EXPECT(expected == (trapping_sub<u32, u16, i64>(u32_min, 1)));
 }
@@ -434,13 +434,13 @@ void TestDiv() {
   EXPECT_DEATH((trapping_div<u16, u16, u8>(u16_max, 1)));
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) / 2;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) / 2;
     EXPECT(expected == (trapping_div<u32, u32, i64>(u32_max, 2)));
     EXPECT(expected == (trapping_div<u32, u16, i64>(u32_max, 2)));
   }
 
   {
-    const i32 expected = trapping_cast<u32, i32>(u32_max / 2);
+    const i32 expected = trapping_cast<i32, u32>(u32_max / 2);
     EXPECT(expected == (trapping_div<u32, u32, i32>(u32_max, 2)));
     EXPECT(expected == (trapping_div<u32, u16, i32>(u32_max, 2)));
   }
@@ -448,7 +448,7 @@ void TestDiv() {
   // TODO: These are getting repetitive; generate them for all types with the
   // template trick.
   {
-    const i16 expected = trapping_cast<u16, i16>(u16_max / 2);
+    const i16 expected = trapping_cast<i16, u16>(u16_max / 2);
     EXPECT(expected == (trapping_div<u16, u16, i32>(u16_max, 2)));
   }
 
@@ -469,19 +469,19 @@ void TestMod() {
 
   // TODO: Generate all possible type combos with the Meredith construct.
   {
-    const i16 expected = trapping_cast<u16, i16>(u16_max % 2);
+    const i16 expected = trapping_cast<i16, u16>(u16_max % 2);
     EXPECT(expected == (trapping_mod<u16, u16, i32>(u16_max, 2)));
   }
   // TODO: Other dividends too, that do not result in 0.
 
   {
-    const i64 expected = trapping_cast<u32, i64>(u32_max) % 2;
+    const i64 expected = trapping_cast<i64, u32>(u32_max) % 2;
     EXPECT(expected == (trapping_mod<u32, u32, i64>(u32_max, 2)));
     EXPECT(expected == (trapping_mod<u32, u16, i64>(u32_max, 2)));
   }
 
   {
-    const i32 expected = trapping_cast<u32, i32>(u32_max % 2);
+    const i32 expected = trapping_cast<i32, u32>(u32_max % 2);
     EXPECT(expected == (trapping_mod<u32, u32, i32>(u32_max, 2)));
     EXPECT(expected == (trapping_mod<u32, u16, i32>(u32_max, 2)));
   }
@@ -552,32 +552,32 @@ void TestCast() {
 
   {
     u16 x = 0xBEEF;
-    i32 y = trapping_cast<u16, i32>(x);
+    i32 y = trapping_cast<i32, u16>(x);
     EXPECT(x == y);
     EXPECT(y == 0xBEEF);
   }
 
   {
     i32 x = 42;
-    i16 y = trapping_cast<i32, i16>(x);
+    i16 y = trapping_cast<i16, i32>(x);
     EXPECT(x == y);
     EXPECT(y == 42);
 
     x = 0x0EADBEEF;
-    EXPECT_DEATH((y = trapping_cast<i32, i16>(x)));
+    EXPECT_DEATH((y = trapping_cast<i16, i32>(x)));
   }
 
   // TODO: Use Meredith here.
   {
     u64 x = u64_max;
     i64 y = 0;
-    EXPECT_DEATH((y = trapping_cast<u64, i64>(x)));
+    EXPECT_DEATH((y = trapping_cast<i64, u64>(x)));
   }
 
   // TODO: Use Meredith here.
   {
     i32 x = i32_min;
-    i64 y = trapping_cast<i32, i64>(x);
+    i64 y = trapping_cast<i64, i32>(x);
     EXPECT(y == i32_min);
     EXPECT(y == x);
   }

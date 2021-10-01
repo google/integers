@@ -204,7 +204,7 @@ bool mod_overflow(T dividend, U divisor, R* result) {
 /// Converts `T`s to `R`s, and traps if `R` cannot hold the full `value`. (This
 /// can happen on some narrowing conversions, and if `value` is signed and < 0
 /// and `R` is unsigned.)
-template <typename T, typename R>
+template <typename R, typename T>
 R trapping_cast(T value) {
   R result = 0;
   if (cast_truncate(value, &result)) {
@@ -336,7 +336,7 @@ class trapping {
   ///
   /// Constructs and initializes. Traps if `T` cannot represent `value`.
   template <typename U, std::enable_if_t<!std::is_same_v<T, U>, int> = 0>
-  explicit trapping(U value) : value_(trapping_cast<U, T>(value)) {}
+  explicit trapping(U value) : value_(trapping_cast<T, U>(value)) {}
 
   /// ### `operator+=`
   ///
@@ -698,7 +698,7 @@ class trapping {
   /// represented as a `U`.
   template <typename U>
   operator U() const {
-    return trapping_cast<T, U>(value_);
+    return trapping_cast<U, T>(value_);
   }
 
   friend std::ostream& operator<<(std::ostream& os, Self self) {
