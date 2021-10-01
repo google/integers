@@ -414,17 +414,17 @@ void TestMul() {
 
 void TestSub() {
   EXPECT_DEATH((trapping_sub<i32, i32, i32>(i32_min, 1)));
-  EXPECT_DEATH((trapping_sub<i32, i32, i16>(i32_min, 0)));
+  EXPECT_DEATH((trapping_sub<i16, i32, i32>(i32_min, 0)));
   EXPECT_DEATH((trapping_sub<u32, u32, u32>(u32_min, 1)));
-  EXPECT_DEATH((trapping_sub<u32, u32, u16>(u32_min, 1)));
+  EXPECT_DEATH((trapping_sub<u16, u32, u32>(u32_min, 1)));
   EXPECT_DEATH((trapping_sub<i16, i16, i16>(i16_min, 1)));
-  EXPECT_DEATH((trapping_sub<i16, i16, i8>(i16_min, 0)));
+  EXPECT_DEATH((trapping_sub<i8, i16, i16>(i16_min, 0)));
   EXPECT_DEATH((trapping_sub<u16, u16, u16>(u16_min, 1)));
-  EXPECT_DEATH((trapping_sub<u16, u16, u8>(u16_min, 1)));
+  EXPECT_DEATH((trapping_sub<u8, u16, u16>(u16_min, 1)));
 
   const i64 expected = trapping_cast<i64>(u32_min) - 1;
-  EXPECT(expected == (trapping_sub<u32, u32, i64>(u32_min, 1)));
-  EXPECT(expected == (trapping_sub<u32, u16, i64>(u32_min, 1)));
+  EXPECT(expected == (trapping_sub<i64, u32, u32>(u32_min, 1)));
+  EXPECT(expected == (trapping_sub<i64, u32, u16>(u32_min, 1)));
 }
 
 void TestDiv() {

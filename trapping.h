@@ -253,7 +253,7 @@ R trapping_mul(T x, U y) {
 ///
 /// Subtracts `y` from `x` and returns the result. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
-template <typename T, typename U, typename R>
+template <typename R, typename T, typename U>
 R trapping_sub(T x, U y) {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
   static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
