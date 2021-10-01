@@ -27,7 +27,7 @@
 #include "in_range.h"
 #include "trap.h"
 
-namespace {
+namespace internal {
 
 /// Returns true if `divisor` is 0. Returns true if `divisor` is signed, is -1,
 /// and if `dividend` is the minimum value for its type. Such division is UB, so
@@ -177,7 +177,7 @@ bool mul_overflow(T x, U y, R* result) {
 template <typename T, typename U, typename R>
 bool div_overflow(T dividend, U divisor, R* result) {
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
-  if (check_bad_division<T, U>(dividend, divisor)) {
+  if (internal::check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
   return cast_truncate(dividend / divisor, result);
@@ -191,7 +191,7 @@ bool div_overflow(T dividend, U divisor, R* result) {
 template <typename T, typename U, typename R>
 bool mod_overflow(T dividend, U divisor, R* result) {
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
-  if (check_bad_division<T, U>(dividend, divisor)) {
+  if (internal::check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
   return cast_truncate(dividend % divisor, result);
