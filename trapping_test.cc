@@ -428,34 +428,28 @@ void TestSub() {
 }
 
 void TestDiv() {
-  EXPECT_DEATH((trapping_div<i32, i32, i16>(i32_max, 2)));
-  EXPECT_DEATH((trapping_div<u32, u32, u16>(u32_max, 2)));
-  EXPECT_DEATH((trapping_div<i16, i16, i8>(i16_max, 1)));
-  EXPECT_DEATH((trapping_div<u16, u16, u8>(u16_max, 1)));
+  EXPECT_DEATH((trapping_div<i16, i32, i32>(i32_max, 2)));
+  EXPECT_DEATH((trapping_div<u16, u32, u32>(u32_max, 2)));
+  EXPECT_DEATH((trapping_div<i8, i16, i16>(i16_max, 1)));
+  EXPECT_DEATH((trapping_div<u8, u16, u16>(u16_max, 1)));
 
   {
     const i64 expected = trapping_cast<i64>(u32_max) / 2;
-    EXPECT(expected == (trapping_div<u32, u32, i64>(u32_max, 2)));
-    EXPECT(expected == (trapping_div<u32, u16, i64>(u32_max, 2)));
+    EXPECT(expected == (trapping_div<i64, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_div<i64, u32, u16>(u32_max, 2)));
   }
 
   {
     const i32 expected = trapping_cast<i32>(u32_max / 2);
-    EXPECT(expected == (trapping_div<u32, u32, i32>(u32_max, 2)));
-    EXPECT(expected == (trapping_div<u32, u16, i32>(u32_max, 2)));
+    EXPECT(expected == (trapping_div<i32, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_div<i32, u32, u16>(u32_max, 2)));
   }
 
   // TODO: These are getting repetitive; generate them for all types with the
   // template trick.
   {
     const i16 expected = trapping_cast<i16>(u16_max / 2);
-    EXPECT(expected == (trapping_div<u16, u16, i32>(u16_max, 2)));
-  }
-
-  {
-    // And so on: ...
-    // EXPECT(expected ==
-    //       (trapping_div<u32, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_div<i32, u16, u16>(u16_max, 2)));
   }
 }
 
