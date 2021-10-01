@@ -336,7 +336,7 @@ class trapping {
   ///
   /// Constructs and initializes. Traps if `T` cannot represent `value`.
   template <typename U, std::enable_if_t<!std::is_same_v<T, U>, int> = 0>
-  explicit trapping(U value) : value_(trapping_cast<T, U>(value)) {}
+  explicit trapping(U value) : value_(trapping_cast<T>(value)) {}
 
   /// ### `operator+=`
   ///
@@ -698,7 +698,7 @@ class trapping {
   /// represented as a `U`.
   template <typename U>
   operator U() const {
-    return trapping_cast<U, T>(value_);
+    return trapping_cast<U>(value_);
   }
 
   friend std::ostream& operator<<(std::ostream& os, Self self) {
