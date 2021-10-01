@@ -18,9 +18,11 @@
 #include <limits>
 #include <type_traits>
 
-namespace std {
+namespace integers {
 
-//#if __cplusplus < 202002L
+#ifdef __cpp_lib_integer_comparison_functions
+using std::in_range;
+#else
 // Polyfill of C++20 `std::in_range` to C++17.
 template <typename R, typename T>
 constexpr bool in_range(T value) noexcept {
@@ -38,8 +40,8 @@ constexpr bool in_range(T value) noexcept {
     return value <= std::make_unsigned_t<R>(kMax);
   }
 }
-//#endif
+#endif
 
-}  // namespace std
+}  // namespace integers
 
 #endif  // IN_RANGE_H_

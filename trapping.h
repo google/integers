@@ -91,7 +91,7 @@ namespace integers {
 /// < 0 and `R` is unsigned.)
 template <typename T, typename R>
 constexpr bool cast_truncate(T value, R* result) {
-  if (std::in_range<R>(value)) {
+  if (integers::in_range<R>(value)) {
     *result = static_cast<R>(value);
     return false;
   }
