@@ -235,7 +235,7 @@ R trapping_add(T x, U y) {
 ///
 /// Multiplies `x` and `y` and returns the result. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
-template <typename T, typename U, typename R>
+template <typename R, typename T, typename U>
 R trapping_mul(T x, U y) {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
   static_assert(std::is_integral_v<U>, "`U` must be an integral type.");

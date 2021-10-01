@@ -399,17 +399,17 @@ void TestModOverflow() {
 
 void TestMul() {
   EXPECT_DEATH((trapping_mul<i32, i32, i32>(i32_max, 2)));
-  EXPECT_DEATH((trapping_mul<i32, i32, i16>(i32_max, 1)));
+  EXPECT_DEATH((trapping_mul<i16, i32, i32>(i32_max, 1)));
   EXPECT_DEATH((trapping_mul<u32, u32, u32>(u32_max, 2)));
-  EXPECT_DEATH((trapping_mul<u32, u32, u16>(u32_max, 1)));
+  EXPECT_DEATH((trapping_mul<u16, u32, u32>(u32_max, 1)));
   EXPECT_DEATH((trapping_mul<i16, i16, i16>(i16_max, 2)));
-  EXPECT_DEATH((trapping_mul<i16, i16, i8>(i16_max, 1)));
+  EXPECT_DEATH((trapping_mul<i8, i16, i16>(i16_max, 1)));
   EXPECT_DEATH((trapping_mul<u16, u16, u16>(u16_max, 2)));
-  EXPECT_DEATH((trapping_mul<u16, u16, u8>(u16_max, 1)));
+  EXPECT_DEATH((trapping_mul<u8, u16, u16>(u16_max, 1)));
 
   const i64 expected = trapping_cast<i64>(u32_max) * 2;
-  EXPECT(expected == (trapping_mul<u32, u32, i64>(u32_max, 2)));
-  EXPECT(expected == (trapping_mul<u32, u16, i64>(u32_max, 2)));
+  EXPECT(expected == (trapping_mul<i64, u32, u32>(u32_max, 2)));
+  EXPECT(expected == (trapping_mul<i64, u32, u16>(u32_max, 2)));
 }
 
 void TestSub() {
