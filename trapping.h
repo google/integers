@@ -89,7 +89,7 @@ namespace integers {
 /// Converts `T`s to `R`s, and returns true if `R` cannot hold the full `value`.
 /// (This can happen on some narrowing conversions, and if `value` is signed and
 /// < 0 and `R` is unsigned.)
-template <typename T, typename R>
+template <typename R, typename T>
 constexpr bool cast_truncate(T value, R* result) {
   if (integers::in_range<R>(value)) {
     *result = static_cast<R>(value);
