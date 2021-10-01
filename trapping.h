@@ -188,7 +188,7 @@ bool div_overflow(T dividend, U divisor, R* result) {
 /// Divides `dividend` by `divisor` and stores the remainder in `result` (which
 /// can be a pointer to `dividend`, `divisor`, or another object). Returns true
 /// if the operation overflowed.
-template <typename T, typename U, typename R>
+template <typename R, typename T, typename U>
 bool mod_overflow(T dividend, U divisor, R* result) {
   static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
   if (internal::check_bad_division<T, U>(dividend, divisor)) {

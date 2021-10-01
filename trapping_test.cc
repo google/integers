@@ -369,30 +369,30 @@ void TestModOverflow() {
 
   {
     u16 result;
-    EXPECT((mod_overflow<u32, u32, u16>(u32_max, 0, &result)));
+    EXPECT((mod_overflow<u16, u32, u32>(u32_max, 0, &result)));
     EXPECT(!(mod_overflow<u16, u16, u16>(u16_max, 1, &result)));
     EXPECT(!(mod_overflow<u16, u16, u16>(u16_max, 2, &result)));
     EXPECT(!(mod_overflow<u16, u16, u16>(u16_max, u16_max, &result)));
   }
   {
     i8 result;
-    EXPECT((mod_overflow<i16, i16, i8>(i16_max, 0, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i8>(i16_max, 1, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i8>(i16_max, 2, &result)));
-    EXPECT(!(mod_overflow<i16, i16, i8>(i16_max, -1, &result)));
+    EXPECT((mod_overflow<i8, i16, i16>(i16_max, 0, &result)));
+    EXPECT(!(mod_overflow<i8, i16, i16>(i16_max, 1, &result)));
+    EXPECT(!(mod_overflow<i8, i16, i16>(i16_max, 2, &result)));
+    EXPECT(!(mod_overflow<i8, i16, i16>(i16_max, -1, &result)));
   }
   {
     u8 result;
-    EXPECT((mod_overflow<u16, u16, u8>(u16_max, 0, &result)));
-    EXPECT((mod_overflow<u16, u16, u8>(u16_min, 0, &result)));
+    EXPECT((mod_overflow<u8, u16, u16>(u16_max, 0, &result)));
+    EXPECT((mod_overflow<u8, u16, u16>(u16_min, 0, &result)));
   }
 
   {
     const i64 expected = trapping_cast<i64>(u32_max) % 1;
     i64 result;
-    EXPECT(!(mod_overflow<u32, u32, i64>(u32_max, 1, &result)));
+    EXPECT(!(mod_overflow<i64, u32, u32>(u32_max, 1, &result)));
     EXPECT(expected == result);
-    EXPECT(!(mod_overflow<u32, u16, i64>(u32_max, 1, &result)));
+    EXPECT(!(mod_overflow<i64, u32, u16>(u32_max, 1, &result)));
     EXPECT(expected == result);
   }
 }
