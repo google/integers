@@ -455,35 +455,29 @@ void TestDiv() {
 
 void TestMod() {
   // TODO: Generate all possible type combos with the Meredith construct.
-  EXPECT(1 == (trapping_mod<i32, i32, i16>(i32_max, 2)));
-  EXPECT(1 == (trapping_mod<u32, u32, u16>(u32_max, 2)));
-  EXPECT(0 == (trapping_mod<i16, i16, i8>(i16_max, 1)));
+  EXPECT(1 == (trapping_mod<i16, i32, i32>(i32_max, 2)));
+  EXPECT(1 == (trapping_mod<u16, u32, u32>(u32_max, 2)));
+  EXPECT(0 == (trapping_mod<i8, i16, i16>(i16_max, 1)));
   EXPECT(1 == (trapping_mod<u16, u16, u16>(u16_max, 2)));
-  EXPECT(0 == (trapping_mod<u16, u16, u8>(u16_max, 1)));
+  EXPECT(0 == (trapping_mod<u8, u16, u16>(u16_max, 1)));
 
   // TODO: Generate all possible type combos with the Meredith construct.
   {
     const i16 expected = trapping_cast<i16>(u16_max % 2);
-    EXPECT(expected == (trapping_mod<u16, u16, i32>(u16_max, 2)));
+    EXPECT(expected == (trapping_mod<i32, u16, u16>(u16_max, 2)));
   }
   // TODO: Other dividends too, that do not result in 0.
 
   {
     const i64 expected = trapping_cast<i64>(u32_max) % 2;
-    EXPECT(expected == (trapping_mod<u32, u32, i64>(u32_max, 2)));
-    EXPECT(expected == (trapping_mod<u32, u16, i64>(u32_max, 2)));
+    EXPECT(expected == (trapping_mod<i64, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_mod<i64, u32, u16>(u32_max, 2)));
   }
 
   {
     const i32 expected = trapping_cast<i32>(u32_max % 2);
-    EXPECT(expected == (trapping_mod<u32, u32, i32>(u32_max, 2)));
-    EXPECT(expected == (trapping_mod<u32, u16, i32>(u32_max, 2)));
-  }
-
-  {
-    // And so on: ...
-    // EXPECT(expected ==
-    //       (trapping_mod<u32, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_mod<i32, u32, u32>(u32_max, 2)));
+    EXPECT(expected == (trapping_mod<i32, u32, u16>(u32_max, 2)));
   }
 }
 

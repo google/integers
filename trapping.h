@@ -288,7 +288,7 @@ R trapping_div(T dividend, U divisor) {
 ///
 /// Divides `dividend` by `divisor` and returns the remainder. If the operation
 /// overflows, or cannot fit into type `R`, this function will `trap`.
-template <typename T, typename U, typename R>
+template <typename R, typename T, typename U>
 R trapping_mod(T dividend, U divisor) {
   static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
   static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
