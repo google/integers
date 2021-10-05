@@ -4,6 +4,9 @@
 well-defined behavior (of your choice!) on overflow, underflow, division by 0,
 casts, and shifting too far.
 
+`integers` is developed and maintained by members of the Fuchsia Security Team,
+but it is not an official Google product.
+
 Defined behaviors are wrapping, trapping, or clamping/saturating. You choose
 your preferred policy/behavior by using the stand-alone template helper
 functions and/or the template classes.
