@@ -864,8 +864,26 @@ void TestOperatorIncrement() {
   // TODO
 }
 
+template <typename T>
+void GenericTestOperatorDecrement() {
+  constexpr T min = numeric_limits<T>::min();
+  constexpr T max = numeric_limits<T>::max();
+  trapping<T> x{max};
+  for (; x > min; x--) {
+    EXPECT(x <= max);
+    EXPECT(x >= min);
+  }
+  EXPECT(x == min);
+}
+
+template <class... T>
+void CallGenericTestOperatorDecrement() {
+  (GenericTestOperatorDecrement<T>(), ...);
+}
+
 void TestOperatorDecrement() {
-  // TODO
+  // Unfortunately, doing them all takes too long. 🙃
+  CallGenericTestOperatorDecrement<i8, u8, i16, u16/*, i32, u32, i64, u64*/>();
 }
 
 template <typename T>
