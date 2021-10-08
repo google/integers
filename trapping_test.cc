@@ -864,12 +864,22 @@ template <typename T>
 void GenericTestOperatorIncrement() {
   constexpr T min = numeric_limits<T>::min();
   constexpr T max = numeric_limits<T>::max();
-  trapping<T> x{min};
-  for (; x < max; x++) {
-    EXPECT(x <= max);
-    EXPECT(x >= min);
+  {
+    trapping<T> x{min};
+    for (; x < max; x++) {
+      EXPECT(x <= max);
+      EXPECT(x >= min);
+    }
+    EXPECT(x == max);
   }
-  EXPECT(x == max);
+  {
+    trapping<T> x{max};
+    EXPECT_DEATH((x++));
+  }
+  {
+    trapping<T> x{max};
+    EXPECT_DEATH((++x));
+  }
 }
 
 template <class... T>
@@ -886,12 +896,22 @@ template <typename T>
 void GenericTestOperatorDecrement() {
   constexpr T min = numeric_limits<T>::min();
   constexpr T max = numeric_limits<T>::max();
-  trapping<T> x{max};
-  for (; x > min; x--) {
-    EXPECT(x <= max);
-    EXPECT(x >= min);
+  {
+    trapping<T> x{max};
+    for (; x > min; x--) {
+      EXPECT(x <= max);
+      EXPECT(x >= min);
+    }
+    EXPECT(x == min);
   }
-  EXPECT(x == min);
+  {
+    trapping<T> x{min};
+    EXPECT_DEATH((x--));
+  }
+  {
+    trapping<T> x{min};
+    EXPECT_DEATH((--x));
+  }
 }
 
 template <class... T>
