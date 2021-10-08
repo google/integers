@@ -860,8 +860,26 @@ void TestOperatorNotEqual() {
   // TODO
 }
 
+template <typename T>
+void GenericTestOperatorIncrement() {
+  constexpr T min = numeric_limits<T>::min();
+  constexpr T max = numeric_limits<T>::max();
+  trapping<T> x{min};
+  for (; x < max; x++) {
+    EXPECT(x <= max);
+    EXPECT(x >= min);
+  }
+  EXPECT(x == max);
+}
+
+template <class... T>
+void CallGenericTestOperatorIncrement() {
+  (GenericTestOperatorIncrement<T>(), ...);
+}
+
 void TestOperatorIncrement() {
-  // TODO
+  // Unfortunately, doing them all takes too long. 🙃
+  CallGenericTestOperatorIncrement<i8, u8, i16, u16/*, i32, u32, i64, u64*/>();
 }
 
 template <typename T>
