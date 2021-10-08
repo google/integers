@@ -887,17 +887,23 @@ void TestOperatorU() {
   }
 }
 
+template <typename T>
+void GenericTestMultiOperatorOverflow() {
+  using U = typename make_unsigned<T>::type;
+  auto x = trapping<U>(numeric_limits<T>::max());
+  // I.e. we expect headroom in `U` above the *signed* `T` maximum:
+  x *= 2;
+  x += 1;
+  EXPECT_DEATH(x += 1);
+}
+
+template <class... T>
+void CallGenericTestMultiOperatorOverflow() {
+  (GenericTestMultiOperatorOverflow<T>(), ...);
+}
+
 void TestMultiOperatorOverflow() {
-  // TODO: Parameterize this for u8, u16, u32.
-  {
-    auto x = trapping<u16>(i16_max);
-    // I.e. we expect headroom in a u16 above the *signed* 16-bit max:
-    x *= 2;
-    EXPECT(x == static_cast<u16>(0xFFFE));
-    x += 1;
-    EXPECT(x == static_cast<u16>(0xFFFF));
-    EXPECT_DEATH(x += 1);
-  }
+  CallGenericTestMultiOperatorOverflow<i8, i16, i32, i64>();
 }
 
 void TestOstream() {
