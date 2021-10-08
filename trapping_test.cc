@@ -868,8 +868,31 @@ void TestOperatorDecrement() {
   // TODO
 }
 
+template <typename T>
+void GenericTestOperatorT() {
+  {
+    trapping<T> x{0};
+    EXPECT(0 == static_cast<T>(x));
+  }
+  {
+    constexpr T expected = numeric_limits<T>::max();
+    trapping<T> x{expected};
+    EXPECT(expected == static_cast<T>(x));
+  }
+  {
+    constexpr T expected = numeric_limits<T>::min();
+    trapping<T> x{expected};
+    EXPECT(expected == static_cast<T>(x));
+  }
+}
+
+template <class... T>
+void CallGenericTestOperatorT() {
+  (GenericTestOperatorT<T>(), ...);
+}
+
 void TestOperatorT() {
-  // TODO
+  CallGenericTestOperatorT<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 void TestOperatorU() {
