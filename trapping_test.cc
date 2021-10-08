@@ -427,6 +427,19 @@ void TestSub() {
   EXPECT(expected == (trapping_sub<i64, u32, u16>(u32_min, 1)));
 }
 
+template <typename T>
+void GenericTestDiv() {
+  using U = typename make_unsigned<T>::type;
+  constexpr U u_max = numeric_limits<U>::max();
+  const T expected = trapping_cast<T>(u_max / 2);
+  EXPECT(expected == (trapping_div<T, U, U>(u_max, 2)));
+}
+
+template <class... T>
+void CallGenericTestDiv() {
+  (GenericTestDiv<T>(), ...);
+}
+
 void TestDiv() {
   EXPECT_DEATH((trapping_div<i16, i32, i32>(i32_max, 2)));
   EXPECT_DEATH((trapping_div<u16, u32, u32>(u32_max, 2)));
@@ -445,12 +458,7 @@ void TestDiv() {
     EXPECT(expected == (trapping_div<i32, u32, u16>(u32_max, 2)));
   }
 
-  // TODO: These are getting repetitive; generate them for all types with the
-  // template trick.
-  {
-    const i16 expected = trapping_cast<i16>(u16_max / 2);
-    EXPECT(expected == (trapping_div<i32, u16, u16>(u16_max, 2)));
-  }
+  CallGenericTestDiv<i8, i16, i32, i64>();
 }
 
 void TestMod() {
