@@ -853,11 +853,41 @@ void TestOperatorGreaterThanOrEqual() {
 }
 
 void TestOperatorEqual() {
-  // TODO
+  {
+    trapping<i32> x{i32_max};
+    EXPECT((x == i32_max));
+    EXPECT((i32_max == x));
+
+    trapping<i64> y{i32_max};
+    EXPECT((y == i32_max));
+    EXPECT((i32_max == y));
+    // TODO: Support this:
+    // EXPECT((x == y));
+
+    trapping<u64> z{i32_max};
+    EXPECT((z == static_cast<u32>(i32_max)));
+    EXPECT((static_cast<u32>(i32_max) == z));
+    EXPECT((static_cast<u32>(x) == z));
+    EXPECT((z == static_cast<u32>(x)));
+  }
 }
 
 void TestOperatorNotEqual() {
-  // TODO
+  {
+    trapping<i32> x{i32_max - 1};
+    EXPECT((x != i32_max));
+    EXPECT((i32_max != x));
+
+    trapping<i64> y{i32_max - 1};
+    EXPECT((y != i32_max));
+    EXPECT((i32_max != y));
+    // TODO: Support this:
+    // EXPECT((x != y));
+
+    trapping<u64> z{i32_max - 1};
+    EXPECT((z != static_cast<u32>(i32_max)));
+    EXPECT((static_cast<u32>(i32_max) != z));
+  }
 }
 
 template <typename T>

@@ -91,7 +91,7 @@ namespace integers {
 /// < 0 and `R` is unsigned.)
 template <typename R, typename T>
 constexpr bool cast_truncate(T value, R* result) {
-  if (integers::in_range<R>(value)) {
+  if (in_range<R>(value)) {
     *result = static_cast<R>(value);
     return false;
   }
@@ -633,12 +633,20 @@ class trapping {
   /// ### `operator==`
   ///
   /// Returns true if `lhs` is equal to `rhs`.
-  friend bool operator==(Self lhs, T rhs) { return lhs.value_ == rhs; }
+  template <typename U>
+  friend bool operator==(Self lhs, U rhs) {
+    static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
+    if (!in_range<T>(rhs) || !in_range<U>(lhs.value_)) {
+      trap();
+    }
+    return lhs.value_ == rhs;
+  }
 
   /// ### `operator==`
   ///
   /// Returns true if `lhs` is equal to `rhs`.
-  friend bool operator==(T lhs, Self rhs) { return lhs == rhs.value_; }
+  template <typename U>
+  friend bool operator==(U lhs, Self rhs) { return rhs == lhs; }
 
   /// ### `operator!=`
   ///
@@ -648,12 +656,14 @@ class trapping {
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(Self lhs, T rhs) { return !(lhs == rhs); }
+  template <typename U>
+  friend bool operator!=(Self lhs, U rhs) { return !(lhs == rhs); }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
-  friend bool operator!=(T lhs, Self rhs) { return !(lhs == rhs); }
+  template <typename U>
+  friend bool operator!=(U lhs, Self rhs) { return !(lhs == rhs); }
 
   /// ### `operator++`
   ///
