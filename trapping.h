@@ -712,9 +712,29 @@ class trapping {
     return trapping_cast<U>(value_);
   }
 
+  /// ### `operator<<`
+  ///
+  /// Writes `self`'s value to the `ostream`, and returns the `ostream`.
   friend std::ostream& operator<<(std::ostream& os, Self self) {
     os << self.value_;
     return os;
+  }
+
+  /// ### `abs`
+  ///
+  /// Returns the absolute value of `x`. Traps if the absolute value cannot be
+  /// represented.
+  friend Self abs(Self x) {
+    if constexpr (std::is_unsigned_v<T>) {
+      return x;
+    }
+    if (x < T{0}) {
+      if (x.value_ == std::numeric_limits<T>::min()) {
+        trap();
+      }
+      return -x;
+    }
+    return x;
   }
 
  private:
@@ -737,4 +757,3 @@ static_assert(sizeof(trapping<int64_t>) == sizeof(int64_t),
 #endif  // TRAPPING_H_
 
 // TODO: Make sure we use `if constexpr` wherever possible.
-// TODO: Handle `abs(numeric_limits<T>::min())` for signed types.

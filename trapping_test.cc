@@ -1028,6 +1028,33 @@ void TestOstream() {
   std::cout << "Testing `operator<<`: " << x << "\n";
 }
 
+template <typename T>
+void GenericTestAbs() {
+  {
+    constexpr T expected = numeric_limits<T>::min();
+    trapping<T> x{expected};
+    if constexpr (is_signed_v<T>) {
+      EXPECT_DEATH(abs(x));
+    } else {
+      EXPECT(abs(x) == expected);
+    }
+  }
+  {
+    constexpr T expected = numeric_limits<T>::max();
+    trapping<T> x{expected};
+    EXPECT(expected == abs(x));
+  }
+}
+
+template <class... T>
+void CallGenericTestAbs() {
+  (GenericTestAbs<T>(), ...);
+}
+
+void TestAbs() {
+  CallGenericTestAbs<i8, u8, i16, u16, i32, u32, i64, u64>();
+}
+
 }  // namespace
 
 int main() {
@@ -1081,4 +1108,5 @@ int main() {
   TestMultiOperatorOverflow();
 
   TestOstream();
+  TestAbs();
 }
