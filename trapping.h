@@ -735,3 +735,6 @@ static_assert(sizeof(trapping<int64_t>) == sizeof(int64_t),
 }  // namespace integers
 
 #endif  // TRAPPING_H_
+
+// TODO: Make sure we use `if constexpr` wherever possible.
+// TODO: Handle `abs(numeric_limits<T>::min())` for signed types.
