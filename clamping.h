@@ -22,6 +22,8 @@
 #include <limits>
 #include <type_traits>
 
+#include "is_integral.h"
+
 namespace integers {
 
 /// ## Clamping Operations
@@ -33,7 +35,7 @@ namespace integers {
 /// TODO: Documentation.
 template <typename T>
 class clamping {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  assert_is_integral(T);
 
   using Self = clamping<T>;
 

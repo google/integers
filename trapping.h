@@ -25,6 +25,7 @@
 #include <utility>
 
 #include "in_range.h"
+#include "is_integral.h"
 #include "trap.h"
 
 namespace internal {
@@ -38,8 +39,8 @@ namespace internal {
 // Thanks, chux!
 template <typename T, typename U>
 bool check_bad_division(T dividend, U divisor) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   if (divisor == 0) {
     return true;
@@ -54,7 +55,7 @@ bool check_bad_division(T dividend, U divisor) {
          divisor == -1;
 }
 
-}  // namespace
+}  // namespace internal
 
 /// # `integers`
 ///
@@ -123,9 +124,9 @@ constexpr bool cast_truncate(T value, R* result) {
 /// `x`, `y`, or another object). Returns true if the operation overflowed.
 template <typename T, typename U, typename R>
 bool add_overflow(T x, U y, R* result) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
+  assert_is_integral(R);
 #if __has_builtin(__builtin_add_overflow)
   return __builtin_add_overflow((x), (y), (result));
 #else
@@ -142,9 +143,9 @@ bool add_overflow(T x, U y, R* result) {
 /// Note: Subtracting 0 does **not** return true. (See `cast_truncate`.)
 template <typename T, typename U, typename R>
 bool sub_overflow(T x, U y, R* result) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
+  assert_is_integral(R);
 #if __has_builtin(__builtin_sub_overflow)
   return __builtin_sub_overflow((x), (y), (result));
 #else
@@ -159,9 +160,9 @@ bool sub_overflow(T x, U y, R* result) {
 /// overflowed.
 template <typename T, typename U, typename R>
 bool mul_overflow(T x, U y, R* result) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
+  assert_is_integral(R);
 #if __has_builtin(__builtin_mul_overflow)
   return __builtin_mul_overflow((x), (y), (result));
 #else
@@ -176,7 +177,9 @@ bool mul_overflow(T x, U y, R* result) {
 /// if the operation overflowed.
 template <typename T, typename U, typename R>
 bool div_overflow(T dividend, U divisor, R* result) {
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
+  assert_is_integral(R);
   if (internal::check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
@@ -190,7 +193,9 @@ bool div_overflow(T dividend, U divisor, R* result) {
 /// if the operation overflowed.
 template <typename T, typename U, typename R>
 bool mod_overflow(T dividend, U divisor, R* result) {
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(U);
+  assert_is_integral(R);
   if (internal::check_bad_division<T, U>(dividend, divisor)) {
     return true;
   }
@@ -219,10 +224,9 @@ R trapping_cast(T value) {
 /// cannot fit into type `R`, this function will `trap`.
 template <typename R, typename T, typename U>
 R trapping_add(T x, U y) {
-  // TODO Also check for not `bool`, and wrap all that up into a macro.
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(R);
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   R result = 0;
   if (add_overflow(x, y, &result)) {
@@ -237,9 +241,9 @@ R trapping_add(T x, U y) {
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename R, typename T, typename U>
 R trapping_mul(T x, U y) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(R);
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   R result = 0;
   if (mul_overflow(x, y, &result)) {
@@ -255,9 +259,9 @@ R trapping_mul(T x, U y) {
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename R, typename T, typename U>
 R trapping_sub(T x, U y) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(R);
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   R result = 0;
   if (sub_overflow(x, y, &result)) {
@@ -273,9 +277,9 @@ R trapping_sub(T x, U y) {
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename R, typename T, typename U>
 R trapping_div(T dividend, U divisor) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(R);
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   R result = 0;
   if (div_overflow(dividend, divisor, &result)) {
@@ -290,9 +294,9 @@ R trapping_div(T dividend, U divisor) {
 /// overflows, or cannot fit into type `R`, this function will `trap`.
 template <typename R, typename T, typename U>
 R trapping_mod(T dividend, U divisor) {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(R);
+  assert_is_integral(T);
+  assert_is_integral(U);
 
   R result = 0;
   if (mod_overflow(dividend, divisor, &result)) {
@@ -315,7 +319,7 @@ R trapping_mod(T dividend, U divisor) {
 /// https://en.cppreference.com/w/cpp/language/operators.
 template <typename T>
 class trapping {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  assert_is_integral(T);
 
   using Self = trapping<T>;
 
@@ -635,7 +639,7 @@ class trapping {
   /// Returns true if `lhs` is equal to `rhs`.
   template <typename U>
   friend bool operator==(Self lhs, U rhs) {
-    static_assert(std::is_integral_v<U>, "`U` must be an integral type.");
+    assert_is_integral(U);
     if (!in_range<T>(rhs) || !in_range<U>(lhs.value_)) {
       trap();
     }
@@ -646,7 +650,9 @@ class trapping {
   ///
   /// Returns true if `lhs` is equal to `rhs`.
   template <typename U>
-  friend bool operator==(U lhs, Self rhs) { return rhs == lhs; }
+  friend bool operator==(U lhs, Self rhs) {
+    return rhs == lhs;
+  }
 
   /// ### `operator!=`
   ///
@@ -657,13 +663,17 @@ class trapping {
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
   template <typename U>
-  friend bool operator!=(Self lhs, U rhs) { return !(lhs == rhs); }
+  friend bool operator!=(Self lhs, U rhs) {
+    return !(lhs == rhs);
+  }
 
   /// ### `operator!=`
   ///
   /// Returns true if `lhs` is not equal to `rhs`.
   template <typename U>
-  friend bool operator!=(U lhs, Self rhs) { return !(lhs == rhs); }
+  friend bool operator!=(U lhs, Self rhs) {
+    return !(lhs == rhs);
+  }
 
   /// ### `operator++`
   ///

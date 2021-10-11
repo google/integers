@@ -237,7 +237,8 @@ void GenericTestMulOverflow() {
   EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::max(), 0, &result)));
   EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::min(), 1, &result)));
   EXPECT(!(mul_overflow<T, T, T>(numeric_limits<T>::max(), 1, &result)));
-  EXPECT(is_signed_v<T> == (mul_overflow<T, T, T>(numeric_limits<T>::min(), 2, &result)));
+  EXPECT(is_signed_v<T> ==
+         (mul_overflow<T, T, T>(numeric_limits<T>::min(), 2, &result)));
   EXPECT((mul_overflow<T, T, T>(numeric_limits<T>::max(), 2, &result)));
 }
 
@@ -588,8 +589,8 @@ void GenericTestOperatorAdd() {
   {
     trapping<T> x = numeric_limits<T>::min();
     x += 1;
-    // TODO: Consider implementing overrides such that the explicit cast/ctor here
-    // is not necessary.
+    // TODO: Consider implementing overrides such that the explicit cast/ctor
+    // here is not necessary.
     EXPECT(x == T{numeric_limits<T>::min() + 1});
   }
 }
@@ -612,8 +613,8 @@ void GenericTestOperatorSub() {
   {
     trapping<T> x = numeric_limits<T>::max();
     x -= 1;
-    // TODO: Consider implementing overrides such that the explicit cast/ctor here
-    // is not necessary (e.g. `operator==(Self, U)`, et c.).
+    // TODO: Consider implementing overrides such that the explicit cast/ctor
+    // here is not necessary (e.g. `operator==(Self, U)`, et c.).
     EXPECT(x == T{numeric_limits<T>::max() - 1});
   }
   {
@@ -825,7 +826,8 @@ void CallGenericTestOperatorLessThanOrEqual() {
 }
 
 void TestOperatorLessThanOrEqual() {
-  CallGenericTestOperatorLessThanOrEqual<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorLessThanOrEqual<i8, u8, i16, u16, i32, u32, i64,
+                                         u64>();
 }
 
 template <typename T>
@@ -849,7 +851,8 @@ void CallGenericTestOperatorGreaterThanOrEqual() {
 }
 
 void TestOperatorGreaterThanOrEqual() {
-  CallGenericTestOperatorGreaterThanOrEqual<i8, u8, i16, u16, i32, u32, i64, u64>();
+  CallGenericTestOperatorGreaterThanOrEqual<i8, u8, i16, u16, i32, u32, i64,
+                                            u64>();
 }
 
 void TestOperatorEqual() {
@@ -919,7 +922,7 @@ void CallGenericTestOperatorIncrement() {
 
 void TestOperatorIncrement() {
   // Unfortunately, doing them all takes too long. 🙃
-  CallGenericTestOperatorIncrement<i8, u8, i16, u16/*, i32, u32, i64, u64*/>();
+  CallGenericTestOperatorIncrement<i8, u8, i16, u16 /*, i32, u32, i64, u64*/>();
 }
 
 template <typename T>
@@ -951,7 +954,7 @@ void CallGenericTestOperatorDecrement() {
 
 void TestOperatorDecrement() {
   // Unfortunately, doing them all takes too long. 🙃
-  CallGenericTestOperatorDecrement<i8, u8, i16, u16/*, i32, u32, i64, u64*/>();
+  CallGenericTestOperatorDecrement<i8, u8, i16, u16 /*, i32, u32, i64, u64*/>();
 }
 
 template <typename T>

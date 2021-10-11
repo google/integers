@@ -13,16 +13,16 @@ test_20: trapping_test_20 wrapping_test_20 clamping_test_20 ranged_test_20
 	./clamping_test_20
 	./ranged_test_20
 
-trapping_test_20: trapping_test.cc trapping.h test_support.h test_support.o
+trapping_test_20: trapping_test.cc trapping.h trap.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++20 trapping_test.cc test_support.o -o trapping_test_20
 
-wrapping_test_20: wrapping_test.cc wrapping.h test_support.h test_support.o
+wrapping_test_20: wrapping_test.cc wrapping.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++20 wrapping_test.cc test_support.o -o wrapping_test_20
 
-clamping_test_20: clamping_test.cc clamping.h test_support.h test_support.o
+clamping_test_20: clamping_test.cc clamping.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++20 clamping_test.cc test_support.o -o clamping_test_20
 
-ranged_test_20: ranged_test.cc ranged.h test_support.h test_support.o
+ranged_test_20: ranged_test.cc ranged.h trap.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++20 ranged_test.cc test_support.o -o ranged_test_20
 
 test_17: trapping_test_17 wrapping_test_17 clamping_test_17 ranged_test_17
@@ -31,16 +31,16 @@ test_17: trapping_test_17 wrapping_test_17 clamping_test_17 ranged_test_17
 	./clamping_test_17
 	./ranged_test_17
 
-trapping_test_17: trapping_test.cc trapping.h test_support.h test_support.o
+trapping_test_17: trapping_test.cc trapping.h trap.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++17 trapping_test.cc test_support.o -o trapping_test_17
 
-wrapping_test_17: wrapping_test.cc wrapping.h test_support.h test_support.o
+wrapping_test_17: wrapping_test.cc wrapping.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++17 wrapping_test.cc test_support.o -o wrapping_test_17
 
-clamping_test_17: clamping_test.cc clamping.h test_support.h test_support.o
+clamping_test_17: clamping_test.cc clamping.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++17 clamping_test.cc test_support.o -o clamping_test_17
 
-ranged_test_17: ranged_test.cc ranged.h test_support.h test_support.o
+ranged_test_17: ranged_test.cc ranged.h trap.h is_integral.h test_support.h test_support.o
 	$(CXX) $(CXXFLAGS) -std=c++17 ranged_test.cc test_support.o -o ranged_test_17
 
 size:

@@ -22,6 +22,8 @@
 #include <limits>
 #include <type_traits>
 
+#include "is_integral.h"
+
 namespace integers {
 
 /// ## Wrapping Operations
@@ -105,7 +107,7 @@ R wrapping_mod(const T& dividend, const U& divisor) {
 /// https://en.cppreference.com/w/cpp/language/operators.
 template <typename T>
 class wrapping {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  assert_is_integral(T);
 
   using Self = wrapping<T>;
 

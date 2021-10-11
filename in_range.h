@@ -18,6 +18,8 @@
 #include <limits>
 #include <type_traits>
 
+#include "is_integral.h"
+
 namespace integers {
 
 #ifdef __cpp_lib_integer_comparison_functions
@@ -26,8 +28,8 @@ using std::in_range;
 // Polyfill of C++20 `std::in_range` to C++17.
 template <typename R, typename T>
 constexpr bool in_range(T value) noexcept {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
-  static_assert(std::is_integral_v<R>, "`R` must be an integral type.");
+  assert_is_integral(T);
+  assert_is_integral(R);
 
   constexpr R kMin = std::numeric_limits<R>::min();
   constexpr R kMax = std::numeric_limits<R>::max();

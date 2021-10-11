@@ -22,6 +22,7 @@
 #include <limits>
 #include <type_traits>
 
+#include "is_integral.h"
 #include "trap.h"
 
 namespace integers {
@@ -38,7 +39,7 @@ void assert_in_range(const T& value) {
 /// TODO: Documentation.
 template <typename T, T Min, T Max>
 class ranged {
-  static_assert(std::is_integral_v<T>, "`T` must be an integral type.");
+  assert_is_integral(T);
   static_assert(Min <= Max, "Min must be <= Max.");
 
   using Self = ranged<T, Min, Max>;
