@@ -462,32 +462,45 @@ void TestDiv() {
   CallGenericTestDiv<i8, i16, i32, i64>();
 }
 
-void TestMod() {
-  // TODO: Generate all possible type combos with the Meredith construct.
-  EXPECT(1 == (trapping_mod<i16, i32, i32>(i32_max, 2)));
-  EXPECT(1 == (trapping_mod<u16, u32, u32>(u32_max, 2)));
-  EXPECT(0 == (trapping_mod<i8, i16, i16>(i16_max, 1)));
-  EXPECT(1 == (trapping_mod<u16, u16, u16>(u16_max, 2)));
-  EXPECT(0 == (trapping_mod<u8, u16, u16>(u16_max, 1)));
+template <typename T>
+void GenericTestMod() {
+  using U = typename make_unsigned<T>::type;
+  constexpr U u_max = numeric_limits<U>::max();
+  constexpr T t_max = numeric_limits<T>::max();
 
-  // TODO: Generate all possible type combos with the Meredith construct.
   {
-    const i16 expected = trapping_cast<i16>(u16_max % 2);
-    EXPECT(expected == (trapping_mod<i32, u16, u16>(u16_max, 2)));
+    constexpr T expected{1};
+    EXPECT(expected == (trapping_mod<T, U, U>(u_max, 2)));
+    EXPECT(expected == (trapping_mod<T, T, T>(t_max, 2)));
+    EXPECT(expected == (trapping_mod<T>(t_max, 2)));
+    EXPECT(expected == (trapping_mod<i8, T>(t_max, 2)));
+    EXPECT(expected == (trapping_mod<i8, U, U>(t_max, 2)));
   }
-  // TODO: Other dividends too, that do not result in 0.
+  {
+    constexpr T max = t_max - 1;
+    constexpr T expected{0};
+    EXPECT(expected == (trapping_mod<T>(max, 2)));
+  }
+  {
+    constexpr U max = u_max - 1;
+    constexpr U expected{0};
+    EXPECT(expected == (trapping_mod<U>(max, U{2})));
+  }
+}
 
+template <class... T>
+void CallGenericTestMod() {
+  (GenericTestMod<T>(), ...);
+}
+
+void TestMod() {
   {
     const i64 expected = trapping_cast<i64>(u32_max) % 2;
     EXPECT(expected == (trapping_mod<i64, u32, u32>(u32_max, 2)));
     EXPECT(expected == (trapping_mod<i64, u32, u16>(u32_max, 2)));
   }
 
-  {
-    const i32 expected = trapping_cast<i32>(u32_max % 2);
-    EXPECT(expected == (trapping_mod<i32, u32, u32>(u32_max, 2)));
-    EXPECT(expected == (trapping_mod<i32, u32, u16>(u32_max, 2)));
-  }
+  CallGenericTestMod<i8, i16, i32, i64>();
 }
 
 void TestConstructorDefault() {
