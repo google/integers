@@ -524,10 +524,16 @@ void TestConstructorT() {
     trapping<i8> x{42};
     EXPECT_DEATH(x = trapping<i8>(512));
     EXPECT_DEATH(((void)trapping<i8>(512)));
+
     EXPECT_DEATH(((void)trapping<i8>(u8_max)));
     EXPECT_DEATH(((void)trapping<i16>(u16_max)));
     EXPECT_DEATH(((void)trapping<i32>(u32_max)));
     EXPECT_DEATH(((void)trapping<i64>(u64_max)));
+
+    EXPECT_DEATH(((void)trapping<u8>(i8_min)));
+    EXPECT_DEATH(((void)trapping<u16>(i16_min)));
+    EXPECT_DEATH(((void)trapping<u32>(i32_min)));
+    EXPECT_DEATH(((void)trapping<u64>(i64_min)));
   }
 }
 
@@ -557,13 +563,6 @@ void CallGenericTestCast() {
 }
 
 void TestCast() {
-  // Thanks to Steve Checkoway for this test case. The cast has already happened
-  // by the time the constructor gets to check the value. There may be nothing
-  // we can do about this. TODO: Maybe all we can do is document this problem?
-  // EXPECT_DEATH(trapping<unsigned int>{(unsigned
-  // int)std::numeric_limits<int>::min()});
-  // trapping<i16>{(i16)std::numeric_limits<i32>::min()};
-
   {
     i32 x = 0x0EADBEEF;
     i32 y = trapping_cast<i32>(x);

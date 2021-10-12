@@ -340,6 +340,14 @@ class trapping {
   /// ### `trapping`
   ///
   /// Constructs and initializes. Traps if `T` cannot represent `value`.
+  ///
+  /// Note that if `value` has already been lossily cast to `T`, this
+  /// constructor cannot detect that condition. For example,
+  ///
+  ///   trapping<unsigned int>{(unsigned int)std::numeric_limits<int>::min()};
+  ///
+  /// will build and run just 'fine'. Thanks to Steve Checkoway for pointing
+  /// this out.
   template <typename U, std::enable_if_t<!std::is_same_v<T, U>, int> = 0>
   explicit trapping(U value) : value_(trapping_cast<T>(value)) {}
 
