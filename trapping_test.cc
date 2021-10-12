@@ -53,14 +53,14 @@ constexpr u64 u64_min = numeric_limits<u64>::min();
 // This construction comes to us from Alidair Meredith
 // (https://twitter.com/AlisdairMered/status/1433994491204153345). We use it to
 // reduce repetitive code and to increase the total coverage of type template
-// permutations. See e.g. `MinSub1`.
+// permutations. See e.g. `GenericTestMulOverflow`.
 //
 //   template <typename T>
 //   void Foo() {
 //     cout << std::hex << numeric_limits<T>::max() << "\n";
 //   }
 //
-//   template <class ...T>
+//   template <class... T>
 //   void CallFoo() {
 //      (Foo<T>(), ...);
 //   }
