@@ -531,6 +531,31 @@ void TestConstructorT() {
   }
 }
 
+template <typename T>
+void GenericTestCast() {
+  {
+    if constexpr (is_signed_v<T>) {
+      using U = typename make_unsigned<T>::type;
+      constexpr U x = numeric_limits<U>::max();
+      T y = 0;
+      EXPECT_DEATH((y = trapping_cast<T>(x)));
+    }
+  }
+
+  {
+    if constexpr (is_signed_v<T>) {
+      constexpr T x = numeric_limits<T>::min();
+      i64 y = trapping_cast<i64>(x);
+      EXPECT(y == x);
+    }
+  }
+}
+
+template <class... T>
+void CallGenericTestCast() {
+  (GenericTestCast<T>(), ...);
+}
+
 void TestCast() {
   // Thanks to Steve Checkoway for this test case. The cast has already happened
   // by the time the constructor gets to check the value. There may be nothing
@@ -577,20 +602,7 @@ void TestCast() {
     EXPECT_DEATH((y = trapping_cast<i16>(x)));
   }
 
-  // TODO: Use Meredith here.
-  {
-    u64 x = u64_max;
-    i64 y = 0;
-    EXPECT_DEATH((y = trapping_cast<i64>(x)));
-  }
-
-  // TODO: Use Meredith here.
-  {
-    i32 x = i32_min;
-    i64 y = trapping_cast<i64>(x);
-    EXPECT(y == i32_min);
-    EXPECT(y == x);
-  }
+  CallGenericTestCast<i8, u8, i16, u16, i32, u32, i64, u64>();
 }
 
 template <typename T>
