@@ -564,13 +564,6 @@ void TestCast() {
   // int)std::numeric_limits<int>::min()});
   // trapping<i16>{(i16)std::numeric_limits<i32>::min()};
 
-  // TODO: `-Wsign-conversion` catches this. But we can't expect that real-world
-  // callers will use that warning (let alone use `-Werror`). So, we probably
-  // need to build multiple times, once with `-Weverything -Werror` for our own
-  // hygeine, and then again with no warnings to emulate real-world callers. And
-  // then tests like this should still pass.
-  // EXPECT_DEATH(trapping<unsigned int>{std::numeric_limits<int>::min()});
-
   {
     i32 x = 0x0EADBEEF;
     i32 y = trapping_cast<i32>(x);
