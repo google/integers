@@ -606,9 +606,8 @@ void GenericTestOperatorAdd() {
   {
     trapping<T> x = numeric_limits<T>::min();
     x += 1;
-    // TODO: Consider implementing overrides such that the explicit cast/ctor
-    // here is not necessary.
     EXPECT(x == T{numeric_limits<T>::min() + 1});
+    EXPECT(x == numeric_limits<T>::min() + 1);
   }
 }
 
@@ -630,9 +629,8 @@ void GenericTestOperatorSub() {
   {
     trapping<T> x = numeric_limits<T>::max();
     x -= 1;
-    // TODO: Consider implementing overrides such that the explicit cast/ctor
-    // here is not necessary (e.g. `operator==(Self, U)`, et c.).
     EXPECT(x == T{numeric_limits<T>::max() - 1});
+    EXPECT(x == numeric_limits<T>::max() - 1);
   }
   {
     trapping<T> x = numeric_limits<T>::min();
