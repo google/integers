@@ -56,5 +56,4 @@ clean:
 	-rm -f trapping_test_20 wrapping_test_20 clamping_test_20 ranged_test_20
 	-rm -f trapping_test_17 wrapping_test_17 clamping_test_17 ranged_test_17
 	-rm -f *.o
-	-rm -f err
 	-rm -rf *.dSYM
