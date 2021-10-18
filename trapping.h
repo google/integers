@@ -508,7 +508,7 @@ class trapping {
   ///
   /// Takes the bitwise `&` of the value and `x`, and assigns it to `value_`.
   /// Returns `*this`.
-  Self& operator&=(T x) {
+  Self& operator&=(Self x) {
     value_ &= x.value_;
     return *this;
   }
@@ -520,6 +520,35 @@ class trapping {
   friend Self operator&(Self lhs, Self rhs) {
     lhs &= rhs;
     return lhs;
+  }
+
+  /// ### `operator&`
+  ///
+  /// Takes the bitwise `&` of `lhs` and `rhs`, assigns it to `lhs`, and returns
+  /// it.
+  template <typename U>
+  friend Self operator&(Self lhs, U rhs) {
+    assert_is_integral(U);
+    if (!in_range<T>(rhs)) {
+      trap();
+    }
+    lhs &= rhs;
+    return lhs;
+  }
+
+  /// ### `operator&`
+  ///
+  /// Takes the bitwise `&` of `lhs` and `rhs`, assigns it to `lhs`, and returns
+  /// it.
+  template <typename U>
+  friend Self operator&(U lhs, Self rhs) {
+    assert_is_integral(U);
+    if (!in_range<T>(lhs)) {
+      trap();
+    }
+    Self result{lhs};
+    result &= rhs;
+    return result;
   }
 
   /// ### `operator^=`

@@ -768,7 +768,18 @@ void TestOperatorOr() {
 }
 
 void TestOperatorAnd() {
-  // TODO
+  {
+    trapping<u32> x{0xffffffff};
+    constexpr u32 high_bit = 0x80000000;
+    EXPECT((x & high_bit) == high_bit);
+    EXPECT((high_bit & x) == high_bit);
+  }
+  {
+    trapping<u32> good{0x600d0000};
+    constexpr u32 cafe = 0xcafe;
+    EXPECT((good & cafe) == 0U);
+    EXPECT((cafe & good) == 0U);
+  }
 }
 
 void TestOperatorXor() {
