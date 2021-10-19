@@ -603,7 +603,7 @@ class trapping {
   /// Shifts the value right by `x` bits, and assigns the result to `value_`.
   /// Returns `*this`. `trap`s if `x` is more than there are bits in the value.
   Self& operator>>=(T x) {
-    if (x < 1 || x > (CHAR_BIT * sizeof(T) - 1)) {
+    if (x < 1 || static_cast<size_t>(x) > (CHAR_BIT * sizeof(T) - 1U)) {
       trap();
     }
     value_ = value_ >> x;

@@ -810,7 +810,29 @@ void TestOperatorLeftShift() {
 }
 
 void TestOperatorRightShift() {
-  // TODO
+  {
+    trapping<i32> x = 1;
+    x >>= 1;
+    EXPECT(x == 0);
+  }
+  {
+    trapping<i32> x = 1;
+    EXPECT_DEATH(x >>= 33);
+  }
+
+  // Expect sign-extension:
+  {
+    trapping<i32> x{i32_min};
+    x >>= 1;
+    EXPECT((x == (i32_min / 2)));
+    EXPECT((x < 0));
+  }
+  // And not sign-extension:
+  {
+    trapping<u32> x{0x80000000};
+    x >>= 1;
+    EXPECT((x == 0x40000000U));
+  }
 }
 
 template <typename T>
