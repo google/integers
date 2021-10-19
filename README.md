@@ -33,7 +33,7 @@ standard C and C++ integers.
 
 `integers` will have a complete test suite. That’s a TODO in progress, along
 with the rest of the implementation work. Currently only `trapping<T>` and its
-helper functions are even started.
+helper functions implemented and tested.
 
 For comments, constructive criticism, patches, help, et c., please feel free to
 file a GitHub issue! See [docs/contributing.md] and [docs/code-of-conduct.md].
