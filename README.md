@@ -33,10 +33,17 @@ so on, which are constantly calculating and re-calculating offsets and indices
 into files. It is all too easy to have mistakes in that kind of code, with the
 classic C integer semantics.
 
-For full documentation, see the Markdown comments in the header files. Here’s an
-introduction.
+You can see a simple example of 4 ways to use the trapping helper functions and
+the `trapping` template class in demo.cc. It shows a simple example of code that
+is vulnerable to integer overflow, and ways to fix it.
+
+For full documentation, see the Markdown comments in the header files.
 
 ## Installation
+
+To install, simply copy the header files into a place that your compiler can see
+them. You can do this manually, or you can edit the Makefile to set your desired
+`INSTALL_DIR`, and then run `make install`.
 
 ## Acknowledgements
 

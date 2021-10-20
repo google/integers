@@ -2,6 +2,7 @@ CXX = clang++
 CXXFLAGS = -Weverything -Werror -Wno-poison-system-directories -Wno-c++98-compat -O0
 FORMAT = clang-format
 FORMAT_FLAGS = -i -style=Chromium
+INSTALL_DIR = $(HOME)/include/integers
 
 default: clean test
 
@@ -55,6 +56,10 @@ format:
 demo: demo.cc trapping.h
 	# Try setting -DNDEBUG also.
 	$(CXX) -std=c++20 demo.cc -o demo
+
+install: clamping.h in_range.h is_integral.h ranged.h test_support.h trap.h trapping.h wrapping.h
+	mkdir -p $(INSTALL_DIR)
+	cp $^ $(INSTALL_DIR)
 
 clean:
 	-rm -f trapping_test_20 wrapping_test_20 clamping_test_20 ranged_test_20
