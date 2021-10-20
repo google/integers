@@ -61,5 +61,6 @@ with the rest of the implementation work. Currently only `trapping<T>` and its
 helper functions are implemented and tested.
 
 For comments, constructive criticism, patches, help, et c., please feel free to
-file a GitHub issue or send a pull request! See [docs/contributing.md] and
-[docs/code-of-conduct.md].
+file a GitHub issue or send a pull request! See
+[Contributing](docs/contributing.md) and [the Code Of
+Conduct](docs/code-of-conduct.md).
