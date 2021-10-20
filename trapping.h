@@ -459,7 +459,7 @@ class trapping {
   template <typename U>
   friend Self operator*(U lhs, Self rhs) {
     Self result{lhs};
-    result *= Self{rhs};
+    result *= rhs;
     return result;
   }
 
