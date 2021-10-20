@@ -652,6 +652,8 @@ void GenericTestOperatorMul() {
   {
     trapping<T> x = numeric_limits<T>::max();
     EXPECT_DEATH(x *= 2);
+    EXPECT_DEATH(x * 2);
+    EXPECT_DEATH(2 * x);
   }
   {
     trapping<T> x = numeric_limits<T>::min();

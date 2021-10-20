@@ -421,6 +421,27 @@ class trapping {
     return lhs;
   }
 
+  /// ### `operator*`
+  ///
+  /// Multiplies `lhs` by `rhs`, assigns the result to `lhs`, and returns
+  /// it. `trap`s on overflow.
+  template <typename U>
+  friend Self operator*(Self lhs, U rhs) {
+    lhs *= Self{rhs};
+    return lhs;
+  }
+
+  /// ### `operator*`
+  ///
+  /// Multiplies `lhs` by `rhs`, assigns the result to `lhs`, and returns
+  /// it. `trap`s on overflow.
+  template <typename U>
+  friend Self operator*(U lhs, Self rhs) {
+    Self result{lhs};
+    result *= Self{rhs};
+    return result;
+  }
+
   /// ### `operator/=`
   ///
   /// Divides by `divisor`, storing the quotient in `*this`, and `trap`ping
