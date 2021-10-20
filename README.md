@@ -15,14 +15,15 @@ the stand-alone template helper functions and/or the template classes.
 There is also a `ranged<T>` template class for situations where you need a type
 that constrains integers to a specific range of values.
 
-The main goals of this library are correctness and usability: ideally, you can
+The main goals of this library are correctness and usability. Ideally, you can
 simply drop in the right type for your situation, and the rest of your code
 works as expected — the template classes should be fully compatible with the
-built-in primitive types.
+built-in primitive types. (If you find any gaps in functionality, that’s a bug!
+Please file an issue or send a pull request.)
 
 Another goal is that this library should be easy to import and use, without any
 transitive dependencies or other complications. `integers` is a headers-only
-library.
+library. (See [Installation](#installation).)
 
 `integers` is tested to work with C++17 and C++20.
 
@@ -57,7 +58,8 @@ standard C and C++ integers.
 
 `integers` will have a complete test suite. That’s a TODO in progress, along
 with the rest of the implementation work. Currently only `trapping<T>` and its
-helper functions implemented and tested.
+helper functions are implemented and tested.
 
 For comments, constructive criticism, patches, help, et c., please feel free to
-file a GitHub issue! See [docs/contributing.md] and [docs/code-of-conduct.md].
+file a GitHub issue or send a pull request! See [docs/contributing.md] and
+[docs/code-of-conduct.md].
