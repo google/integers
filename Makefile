@@ -49,6 +49,7 @@ size:
 
 push:
 	git push -u origin
+	git push -u github
 
 format:
 	$(FORMAT) $(FORMAT_FLAGS) *.{cc,h}
