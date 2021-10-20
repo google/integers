@@ -413,6 +413,27 @@ class trapping {
 
   /// ### `operator-`
   ///
+  /// Subtracts `rhs` from `lhs`, assigns the result to `lhs`, and returns
+  /// it. `trap`s on overflow.
+  template <typename U>
+  friend Self operator-(Self lhs, U rhs) {
+    lhs -= Self{rhs};
+    return lhs;
+  }
+
+  /// ### `operator-`
+  ///
+  /// Subtracts `rhs` from `lhs`, assigns the result to `lhs`, and returns
+  /// it. `trap`s on overflow.
+  template <typename U>
+  friend Self operator-(U lhs, Self rhs) {
+    Self result{lhs};
+    result -= rhs;
+    return result;
+  }
+
+  /// ### `operator-`
+  ///
   /// Reverses the value’s sign. (For unsigned `T`s, flips the bits just as
   /// if `T` were signed.) However, if `T` is signed and is the minimum
   /// value, which cannot be represented in the positive range of `T`, this
