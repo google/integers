@@ -602,12 +602,18 @@ void GenericTestOperatorAdd() {
   {
     trapping<T> x = numeric_limits<T>::max();
     EXPECT_DEATH(x += 1);
+    EXPECT_DEATH(x + 1);
   }
   {
     trapping<T> x = numeric_limits<T>::min();
     x += 1;
     EXPECT(x == T{numeric_limits<T>::min() + 1});
     EXPECT(x == numeric_limits<T>::min() + 1);
+    x = numeric_limits<T>::min();
+    EXPECT((x + 1) == T{numeric_limits<T>::min() + 1});
+    EXPECT((x + 1) == numeric_limits<T>::min() + 1);
+    EXPECT((1 + x) == T{numeric_limits<T>::min() + 1});
+    EXPECT((1 + x) == numeric_limits<T>::min() + 1);
   }
 }
 
