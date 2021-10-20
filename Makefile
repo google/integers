@@ -53,6 +53,7 @@ format:
 	$(FORMAT) $(FORMAT_FLAGS) *.{cc,h}
 
 demo: demo.cc trapping.h
+	# Try setting -DNDEBUG also.
 	$(CXX) -std=c++20 demo.cc -o demo
 
 clean:
