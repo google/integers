@@ -52,8 +52,12 @@ push:
 format:
 	$(FORMAT) $(FORMAT_FLAGS) *.{cc,h}
 
+demo: demo.cc trapping.h
+	$(CXX) -std=c++20 demo.cc -o demo
+
 clean:
 	-rm -f trapping_test_20 wrapping_test_20 clamping_test_20 ranged_test_20
 	-rm -f trapping_test_17 wrapping_test_17 clamping_test_17 ranged_test_17
+	-rm -f demo
 	-rm -f *.o
 	-rm -rf *.dSYM

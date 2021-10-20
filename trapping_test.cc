@@ -731,10 +731,13 @@ void GenericTestOperatorMod() {
   {
     trapping<T> x = max;
     EXPECT((x %= 1) == static_cast<T>(max % 1));
+    EXPECT((x % 1) == static_cast<T>(max % 1));
   }
   {
     trapping<T> x = max;
     EXPECT((x %= 2) == static_cast<T>(max % 2));
+    x = max;
+    EXPECT((x % 2) == static_cast<T>(max % 2));
   }
   {
     if constexpr (is_signed_v<T>) {
@@ -753,6 +756,11 @@ void GenericTestOperatorMod() {
       trapping<T> x = numeric_limits<T>::min();
       EXPECT_DEATH((x %= -1));
     }
+  }
+  {
+    trapping<T> x{42};
+    EXPECT_DEATH(x %= 0);
+    EXPECT_DEATH(x % 0);
   }
 }
 

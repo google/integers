@@ -499,6 +499,27 @@ class trapping {
     return dividend;
   }
 
+  /// ### `operator%`
+  ///
+  /// Divides `dividend` by `divisor`, storing the remainder in `dividend`, and
+  /// returns `dividend`. `trap`s on overflow or if `divisor` is 0.
+  template <typename U>
+  friend Self operator%(Self dividend, U divisor) {
+    dividend %= Self{divisor};
+    return dividend;
+  }
+
+  /// ### `operator%`
+  ///
+  /// Divides `dividend` by `divisor`, storing the remainder in `dividend`, and
+  /// returns `dividend`. `trap`s on overflow or if `divisor` is 0.
+  template <typename U>
+  friend Self operator%(U dividend, Self divisor) {
+    Self result{dividend};
+    result %= Self{divisor};
+    return result;
+  }
+
   /// ### `operator|=`
   ///
   /// Takes the bitwise `|` of the value and `x`, and assigns it to `value_`.
