@@ -38,7 +38,7 @@ namespace internal {
 // https://stackoverflow.com/questions/30394086/integer-division-overflows.
 // Thanks, chux!
 template <typename T, typename U>
-bool check_bad_division(T dividend, U divisor) {
+[[nodiscard]] bool check_bad_division(T dividend, U divisor) {
   assert_is_integral(T);
   assert_is_integral(U);
 
@@ -123,7 +123,7 @@ constexpr bool cast_truncate(T value, R* result) {
 /// Adds `x` to `y` and stores the result in `result` (which can be a pointer to
 /// `x`, `y`, or another object). Returns true if the operation overflowed.
 template <typename T, typename U, typename R>
-bool add_overflow(T x, U y, R* result) {
+[[nodiscard]] bool add_overflow(T x, U y, R* result) {
   assert_is_integral(T);
   assert_is_integral(U);
   assert_is_integral(R);
@@ -142,7 +142,7 @@ bool add_overflow(T x, U y, R* result) {
 ///
 /// Note: Subtracting 0 does **not** return true. (See `cast_truncate`.)
 template <typename T, typename U, typename R>
-bool sub_overflow(T x, U y, R* result) {
+[[nodiscard]] bool sub_overflow(T x, U y, R* result) {
   assert_is_integral(T);
   assert_is_integral(U);
   assert_is_integral(R);
@@ -159,7 +159,7 @@ bool sub_overflow(T x, U y, R* result) {
 /// pointer to `x`, `y`, or another object). Returns true if the operation
 /// overflowed.
 template <typename T, typename U, typename R>
-bool mul_overflow(T x, U y, R* result) {
+[[nodiscard]] bool mul_overflow(T x, U y, R* result) {
   assert_is_integral(T);
   assert_is_integral(U);
   assert_is_integral(R);
@@ -176,7 +176,7 @@ bool mul_overflow(T x, U y, R* result) {
 /// can be a pointer to `dividend`, `divisor`, or another object). Returns true
 /// if the operation overflowed.
 template <typename T, typename U, typename R>
-bool div_overflow(T dividend, U divisor, R* result) {
+[[nodiscard]] bool div_overflow(T dividend, U divisor, R* result) {
   assert_is_integral(T);
   assert_is_integral(U);
   assert_is_integral(R);
@@ -192,7 +192,7 @@ bool div_overflow(T dividend, U divisor, R* result) {
 /// can be a pointer to `dividend`, `divisor`, or another object). Returns true
 /// if the operation overflowed.
 template <typename T, typename U, typename R>
-bool mod_overflow(T dividend, U divisor, R* result) {
+[[nodiscard]] bool mod_overflow(T dividend, U divisor, R* result) {
   assert_is_integral(T);
   assert_is_integral(U);
   assert_is_integral(R);
