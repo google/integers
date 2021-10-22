@@ -422,6 +422,7 @@ class trapping {
   /// value, which cannot be represented in the positive range of `T`, this
   /// function will `trap`.
   Self& operator-() {
+    static_assert(std::is_signed_v<T>, "Cannot negate an unsigned value");
     if (std::is_signed_v<T> && value_ == std::numeric_limits<T>::min()) {
       trap();
     }
@@ -920,14 +921,15 @@ class trapping {
   friend Self abs(Self x) {
     if constexpr (std::is_unsigned_v<T>) {
       return x;
-    }
-    if (x < T{0}) {
-      if (x.value_ == std::numeric_limits<T>::min()) {
-        trap();
+    } else {
+      if (x < T{0}) {
+        if (x.value_ == std::numeric_limits<T>::min()) {
+          trap();
+        }
+        return -x;
       }
-      return -x;
+      return x;
     }
-    return x;
   }
 
  private:
