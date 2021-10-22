@@ -28,7 +28,7 @@
 ///
 /// Note that the rest of the functions and classes in this library handle
 /// errors by calling this function. If you don’t want immediate fiery
-/// death, then you should use the `*_overflow` functions above.
+/// death, then you should use the `*_overflow` functions.
 ///
 /// However, may we humbly suggest that immediate fiery death is actually
 /// quite desirable? If you find that surprising, which is not unreasonable

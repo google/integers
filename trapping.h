@@ -64,23 +64,6 @@ template <typename T, typename U>
 /// narrowing conversions, and over-shifting. You can choose the appropriate
 /// behavior by using the functions and classes that are right for your
 /// application (e.g. `wrapping<T>`, `trapping_add`, and so on).
-///
-/// These functions and classes were inspired in part by Rust’s
-/// [`std::num::Wrapping`](https://doc.rust-lang.org/std/num/struct.Wrapping.html),
-/// [`std::intrinsics::wrapping_add`](https://doc.rust-lang.org/std/intrinsics/fn.wrapping_add.html),
-/// and
-/// [`std::intrinsics::add_with_overflow`](https://doc.rust-lang.org/std/intrinsics/fn.add_with_overflow.html).
-/// This library generalizes the idea and brings it all into a single package
-/// for C++.
-///
-/// This library is also inspired by [Chromium’s //base/numerics
-/// library](https://source.chromium.org/chromium/chromium/src/+/main:base/numerics/README.md).
-///
-/// The implementation is intentionally naive, so that it is easy to understand
-/// and maintain. It might therefore not be quite as efficient as possible.
-/// However, it should hopefully be within the ballpark of [the numbers Dan Luu
-/// reports](https://danluu.com/integer-overflow/).
-
 namespace integers {
 
 /// ## Primitive Checking Operations

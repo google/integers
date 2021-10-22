@@ -46,10 +46,43 @@ To install, simply copy the header files into a place that your compiler can see
 them. You can do this manually, or you can edit the Makefile to set your desired
 `INSTALL_DIR`, and then run `make install`.
 
+## Efficiency
+
+[Dan Luu reports some general time efficiency
+numbers](https://danluu.com/integer-overflow/).
+
+This implementation is intentionally naive, so that it is easy to understand and
+maintain. It might not be as efficient as absolutely possible. However, it
+should be in the ballpark of Microsoft’s SafeInt, Chromium’s numerics, and what
+you could do by hand.
+
+Separate from run-time speed, adding integer overflow checks (as `trapping<T>`,
+`trapping_mul`, et c. do) increases object code size proportional to how many
+checking call sites you have. `integers` aims to reduce the magnitude of the
+code size increase in `NDEBUG` builds. (Note the implementation in trap.h.)
+
 ## Acknowledgements
 
 Special thanks to Jan Wilken Dörrie and Dana Jansens for the help in
 implementation and general C++ advice.
+
+## See Also
+
+These functions and classes were inspired in part by Rust’s
+[`std::num::Wrapping`](https://doc.rust-lang.org/std/num/struct.Wrapping.html),
+[`std::intrinsics::wrapping_add`](https://doc.rust-lang.org/std/intrinsics/fn.wrapping_add.html),
+and
+[`std::intrinsics::add_with_overflow`](https://doc.rust-lang.org/std/intrinsics/fn.add_with_overflow.html).
+This library generalizes the idea and brings it all into a single package for
+C++.
+
+There are many efforts to provide better integer semantics for C++. You might
+like to check them out:
+
+* [Chromium’s //base/numerics library](https://source.chromium.org/chromium/chromium/src/+/main:base/numerics/README.md)
+* [SafeInt](https://github.com/dcleblanc/SafeInt)
+* [type\_safe](https://github.com/foonathan/type_safe)
+* [Boost Safe Numerics](https://www.boost.org/doc/libs/1_77_0/libs/safe_numerics/doc/html/introduction.html)
 
 ## TODO
 
