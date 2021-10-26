@@ -57,7 +57,7 @@ should be in the ballpark of Microsoft’s SafeInt, Chromium’s numerics, and w
 you could do by hand.
 
 Separate from run-time speed, adding integer overflow checks (as `trapping<T>`,
-`trapping_mul`, et c. do) increases object code size proportional to how many
+`trapping_mul`, etc. do) increases object code size proportional to how many
 checking call sites you have. `integers` aims to reduce the magnitude of the
 code size increase in `NDEBUG` builds. (Note the implementation in trap.h.)
 
